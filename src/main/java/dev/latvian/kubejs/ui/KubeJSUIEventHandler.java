@@ -16,6 +16,11 @@ public class KubeJSUIEventHandler
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void openGui(GuiOpenEvent event)
 	{
+		if (event.getGui() == null)
+		{
+			return;
+		}
+
 		String id = UIData.get().getScreenId(event.getGui().getClass());
 
 		if (!id.isEmpty())
