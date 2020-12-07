@@ -88,9 +88,9 @@ repositories {
 }
 
 dependencies {
-	minecraft "net.minecraftforge:forge-419699:${forge_version}"
+	minecraft "net.minecraftforge:forge:${forge_version}"
 	compile fg.deobf("curse.maven:rhino-416294:${rhino_file}")
-	compile fg.deobf("curse.maven:architectury-forge:${architectury_file}")
+	compile fg.deobf("curse.maven:architectury-forge-419699:${architectury_file}")
 	compile fg.deobf("curse.maven:kubejs-238086:${kubejs_file}")
 	compile fg.deobf("curse.maven:jei-238222:${jei_file}")
 }
