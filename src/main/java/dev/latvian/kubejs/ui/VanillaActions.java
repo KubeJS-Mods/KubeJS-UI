@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screen.OptionsScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.WorldSelectionScreen;
 import net.minecraft.realms.RealmsBridgeScreen;
+import net.minecraftforge.fml.client.gui.screen.ModListScreen;
 
 import java.util.function.Consumer;
 
@@ -29,4 +30,6 @@ public interface VanillaActions
 	Consumer<Screen> OPTIONS = screen -> mc().setScreen(new OptionsScreen(screen, mc().options));
 	Consumer<Screen> QUIT = screen -> mc().stop();
 	Consumer<Screen> ACCESSIBILITY = screen -> mc().setScreen(new AccessibilityScreen(screen, mc().options));
+
+	Consumer<Screen> FORGE_MOD_LIST = screen -> mc().setScreen(new ModListScreen(screen));
 }
