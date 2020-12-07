@@ -1,6 +1,7 @@
 package dev.latvian.kubejs.ui;
 
 import dev.latvian.kubejs.script.ScriptType;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -16,12 +17,18 @@ public class KubeJSUIEventHandler
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void openGui(GuiOpenEvent event)
 	{
-		if (event.getGui() == null)
+		Screen original = event.getGui();
+
+		if (original == null)
 		{
 			return;
 		}
+		else if (original instanceof ScreenKubeJSUI)
+		{
+			original = ((ScreenKubeJSUI) original).original;
+		}
 
-		String id = UIData.get().getScreenId(event.getGui().getClass());
+		String id = UIData.get().getScreenId(original.getClass());
 
 		if (!id.isEmpty())
 		{
@@ -31,7 +38,7 @@ public class KubeJSUIEventHandler
 
 				if (e.post(ScriptType.CLIENT, "ui." + id) && e.consumer != null)
 				{
-					event.setGui(new ScreenKubeJSUI(id, event.getGui(), e.consumer));
+					event.setGui(new ScreenKubeJSUI(id, original, e.consumer));
 				}
 			}
 			catch (Exception ex)

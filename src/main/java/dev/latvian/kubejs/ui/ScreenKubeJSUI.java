@@ -1,11 +1,13 @@
 package dev.latvian.kubejs.ui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import dev.latvian.kubejs.KubeJS;
 import dev.latvian.kubejs.ui.widget.UI;
 import dev.latvian.kubejs.ui.widget.Widget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.function.Consumer;
 
@@ -116,5 +118,20 @@ public final class ScreenKubeJSUI extends Screen
 	{
 		ui.mouseReleased();
 		return super.mouseReleased(x, y, button);
+	}
+
+	@Override
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
+	{
+		if (keyCode == GLFW.GLFW_KEY_F5 && (modifiers & GLFW.GLFW_MOD_CONTROL) != 0)
+		{
+			KubeJS.clientScriptManager.unload();
+			KubeJS.clientScriptManager.loadFromDirectory();
+			KubeJS.clientScriptManager.load();
+			minecraft.setScreen(this);
+			return true;
+		}
+
+		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 }
