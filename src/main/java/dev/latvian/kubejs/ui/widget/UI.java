@@ -3,6 +3,7 @@ package dev.latvian.kubejs.ui.widget;
 import dev.latvian.kubejs.text.Text;
 import dev.latvian.kubejs.ui.ScreenKubeJSUI;
 import net.minecraft.util.IReorderingProcessor;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextProperties;
 
 import javax.annotation.Nullable;
@@ -17,12 +18,14 @@ public class UI extends Panel
 	public final ScreenKubeJSUI screen;
 	public final Mouse mouse;
 	public final List<Widget> allWidgets;
+	private ResourceLocation widgetTexture;
 
 	public UI(ScreenKubeJSUI s)
 	{
 		screen = s;
 		mouse = new Mouse();
 		allWidgets = new ArrayList<>();
+		widgetTexture = new ResourceLocation("minecraft:textures/gui/widgets.png");
 		setName(s.getTitle());
 	}
 
@@ -54,6 +57,21 @@ public class UI extends Panel
 	public int getHeight()
 	{
 		return screen.height;
+	}
+
+	public ResourceLocation getWidgetTexture()
+	{
+		return widgetTexture;
+	}
+
+	public void setWidgetTexture(ResourceLocation s)
+	{
+		widgetTexture = s;
+	}
+
+	public void setWidgetTexture(String s)
+	{
+		setWidgetTexture(new ResourceLocation(s));
 	}
 
 	// Utils //

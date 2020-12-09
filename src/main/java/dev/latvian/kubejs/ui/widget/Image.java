@@ -54,6 +54,7 @@ public class Image extends Widget
 	@Override
 	public void renderBackground(MatrixStack matrixStack)
 	{
+		RenderSystem.color4f(255, 255, 255, 255);
 		RenderSystem.enableTexture();
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();

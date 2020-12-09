@@ -4,15 +4,12 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.ResourceLocation;
 
 /**
  * @author LatvianModder
  */
 public class Button extends Widget
 {
-	public static final ResourceLocation WIDGETS_LOCATION = new ResourceLocation("textures/gui/widgets.png");
-
 	public Button()
 	{
 		z = 10;
@@ -32,7 +29,7 @@ public class Button extends Widget
 	{
 		Minecraft minecraft = Minecraft.getInstance();
 		FontRenderer fontrenderer = getUi().screen.getUiFont();
-		minecraft.getTextureManager().bind(WIDGETS_LOCATION);
+		minecraft.getTextureManager().bind(getUi().getWidgetTexture());
 		RenderSystem.color4f(255, 255, 255, alpha);
 		int i;
 		int j;
@@ -63,7 +60,7 @@ public class Button extends Widget
 		matrixStack.translate(actualX, actualY, z);
 		blit(matrixStack, 0, 0, 0, 46 + i * 20, w / 2, h);
 		blit(matrixStack, w / 2, 0, 200 - w / 2, 46 + i * 20, w / 2, h);
-		//AbstractGui.renderBg(p_230431_1_, minecraft, p_230431_2_, p_230431_3_);
+		RenderSystem.color4f(255, 255, 255, 255);
 		drawCenteredString(matrixStack, fontrenderer, cachedComponent, w / 2, (h - 8) / 2, j | (alpha << 24));
 		matrixStack.popPose();
 	}

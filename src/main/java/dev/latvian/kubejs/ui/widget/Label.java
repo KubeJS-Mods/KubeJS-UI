@@ -1,6 +1,7 @@
 package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -32,6 +33,7 @@ public class Label extends Widget
 	@Override
 	public void renderForeground(MatrixStack matrixStack)
 	{
+		RenderSystem.color4f(255, 255, 255, 255);
 		matrixStack.pushPose();
 		matrixStack.translate(actualX, actualY, z);
 

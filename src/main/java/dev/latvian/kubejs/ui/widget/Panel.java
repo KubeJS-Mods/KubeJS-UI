@@ -43,6 +43,11 @@ public class Panel extends Widget
 		widget(Button::new, c);
 	}
 
+	public void imageButton(Consumer<ImageButton> c)
+	{
+		widget(ImageButton::new, c);
+	}
+
 	public void label(Consumer<Label> c)
 	{
 		widget(Label::new, c);
