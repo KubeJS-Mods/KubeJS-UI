@@ -4,17 +4,21 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.util.IReorderingProcessor;
 
 /**
  * @author LatvianModder
  */
 public class Button extends Widget
 {
+	public boolean shadow;
+
 	public Button()
 	{
 		z = 10;
 		setWidth(200);
 		setHeight(20);
+		shadow = true;
 	}
 
 	@Override
@@ -61,7 +65,18 @@ public class Button extends Widget
 		blit(matrixStack, 0, 0, 0, 46 + i * 20, w / 2, h);
 		blit(matrixStack, w / 2, 0, 200 - w / 2, 46 + i * 20, w / 2, h);
 		RenderSystem.color4f(255, 255, 255, 255);
-		drawCenteredString(matrixStack, fontrenderer, cachedComponent, w / 2, (h - 8) / 2, j | (alpha << 24));
+
+		if (shadow)
+		{
+			drawCenteredString(matrixStack, fontrenderer, cachedComponent, w / 2, (h - 8) / 2, j | (alpha << 24));
+		}
+		else
+		{
+			RenderSystem.enableAlphaTest();
+			IReorderingProcessor ireorderingprocessor = cachedComponent.getVisualOrderText();
+			fontrenderer.draw(matrixStack, ireorderingprocessor, (w - fontrenderer.width(ireorderingprocessor)) / 2F, (h - 8) / 2F, j | (alpha << 24));
+		}
+
 		matrixStack.popPose();
 	}
 }
