@@ -52,7 +52,7 @@ public class Image extends Widget
 	}
 
 	@Override
-	public void renderBackground(MatrixStack matrixStack)
+	public void renderBackground(MatrixStack matrixStack, float partialTicks)
 	{
 		RenderSystem.color4f(255, 255, 255, 255);
 		RenderSystem.enableTexture();

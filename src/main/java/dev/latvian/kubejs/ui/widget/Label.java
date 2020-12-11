@@ -31,7 +31,7 @@ public class Label extends Widget
 	}
 
 	@Override
-	public void renderForeground(MatrixStack matrixStack)
+	public void renderForeground(MatrixStack matrixStack, float partialTicks)
 	{
 		RenderSystem.color4f(255, 255, 255, 255);
 		matrixStack.pushPose();

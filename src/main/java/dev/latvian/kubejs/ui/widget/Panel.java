@@ -1,6 +1,7 @@
 package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,16 @@ public class Panel extends Widget
 		});
 	}
 
+	public void shaderBackground(String s)
+	{
+		widget(() -> new Shader(getUi().screen.loadShader(new ResourceLocation(s)).orElse(null)), shader -> {
+			shader.setX(0);
+			shader.setY(0);
+			shader.setWidth(getWidth());
+			shader.setHeight(getHeight());
+		});
+	}
+
 	public void minecraftLogo(int x, int y)
 	{
 		image(i -> {
@@ -108,20 +119,20 @@ public class Panel extends Widget
 	}
 
 	@Override
-	public void renderBackground(MatrixStack matrixStack)
+	public void renderBackground(MatrixStack matrixStack, float partialTicks)
 	{
 		for (Widget w : children)
 		{
-			w.renderBackground(matrixStack);
+			w.renderBackground(matrixStack, partialTicks);
 		}
 	}
 
 	@Override
-	public void renderForeground(MatrixStack matrixStack)
+	public void renderForeground(MatrixStack matrixStack, float partialTicks)
 	{
 		for (Widget w : children)
 		{
-			w.renderForeground(matrixStack);
+			w.renderForeground(matrixStack, partialTicks);
 		}
 	}
 

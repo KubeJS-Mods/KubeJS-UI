@@ -29,7 +29,7 @@ public class Button extends Widget
 	}
 
 	@Override
-	public void renderBackground(MatrixStack matrixStack)
+	public void renderBackground(MatrixStack matrixStack, float partialTicks)
 	{
 		Minecraft minecraft = Minecraft.getInstance();
 		FontRenderer fontrenderer = getUi().screen.getUiFont();

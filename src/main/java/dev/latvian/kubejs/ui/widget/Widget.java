@@ -170,11 +170,11 @@ public class Widget extends AbstractGui
 		list.add(this);
 	}
 
-	public void renderBackground(MatrixStack matrixStack)
+	public void renderBackground(MatrixStack matrixStack, float partialTicks)
 	{
 	}
 
-	public void renderForeground(MatrixStack matrixStack)
+	public void renderForeground(MatrixStack matrixStack, float partialTicks)
 	{
 	}
 

@@ -38,7 +38,7 @@ public class ImageButton extends Widget
 	}
 
 	@Override
-	public void renderBackground(MatrixStack matrixStack)
+	public void renderBackground(MatrixStack matrixStack, float partialTicks)
 	{
 		Minecraft minecraft = Minecraft.getInstance();
 		minecraft.getTextureManager().bind(getUi().getWidgetTexture());

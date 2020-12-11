@@ -19,6 +19,7 @@ public class UI extends Panel
 	public final Mouse mouse;
 	public final List<Widget> allWidgets;
 	private ResourceLocation widgetTexture;
+	public int tick = 0;
 
 	public UI(ScreenKubeJSUI s)
 	{
