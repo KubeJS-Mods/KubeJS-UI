@@ -105,6 +105,7 @@ public final class ScreenKubeJSUI extends Screen
 		original.renderBackground(matrixStack);
 		ui.mouse.x = mouseX;
 		ui.mouse.y = mouseY;
+		ui.time = System.currentTimeMillis() - ui.startTime;
 
 		for (Widget w : ui.allWidgets)
 		{
@@ -156,6 +157,8 @@ public final class ScreenKubeJSUI extends Screen
 		if (keyCode == GLFW.GLFW_KEY_F5)
 		{
 			ui.tick = 0;
+			ui.startTime = System.currentTimeMillis();
+			ui.time = 0L;
 
 			if ((modifiers & GLFW.GLFW_MOD_CONTROL) != 0)
 			{

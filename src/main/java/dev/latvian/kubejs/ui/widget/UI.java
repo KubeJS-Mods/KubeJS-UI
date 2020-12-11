@@ -20,6 +20,8 @@ public class UI extends Panel
 	public final List<Widget> allWidgets;
 	private ResourceLocation widgetTexture;
 	public int tick = 0;
+	public long time = 0L;
+	public long startTime;
 
 	public UI(ScreenKubeJSUI s)
 	{
@@ -28,6 +30,7 @@ public class UI extends Panel
 		allWidgets = new ArrayList<>();
 		widgetTexture = new ResourceLocation("minecraft:textures/gui/widgets.png");
 		setName(s.getTitle());
+		startTime = System.currentTimeMillis();
 	}
 
 	@Override

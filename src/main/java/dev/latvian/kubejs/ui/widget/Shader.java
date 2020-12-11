@@ -54,7 +54,7 @@ public class Shader extends Widget
 
 		//program.safeGetUniform("ProjMat").set(shaderOrthoMatrix);
 		program.safeGetUniform("resolution").set(w, h);
-		program.safeGetUniform("time").set((getUi().tick - 1F + partialTicks) / 20F);
+		program.safeGetUniform("time").set(getUi().time / 1000F);
 		//program.safeGetUniform("ScreenSize").set((float) sw, (float) sh);
 		program.apply();
 		RenderSystem.depthFunc(GL11.GL_ALWAYS);
