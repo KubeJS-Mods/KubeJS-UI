@@ -17,10 +17,12 @@ import javax.annotation.Nullable;
 public class Shader extends Widget
 {
 	public final ShaderInstance program;
+	public final float scale;
 
-	public Shader(@Nullable ShaderInstance s)
+	public Shader(@Nullable ShaderInstance s, float sc)
 	{
 		program = s;
+		scale = Math.max(sc, 1F);
 		setWidth(64);
 		setHeight(64);
 	}

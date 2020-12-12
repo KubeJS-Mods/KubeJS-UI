@@ -82,14 +82,19 @@ public class Panel extends Widget
 		});
 	}
 
-	public void shaderBackground(String s)
+	public void shaderBackground(String s, int scale)
 	{
-		widget(() -> new Shader(getUi().screen.loadShader(new ResourceLocation(s)).orElse(null)), shader -> {
+		widget(() -> new Shader(getUi().screen.loadShader(new ResourceLocation(s)).orElse(null), scale), shader -> {
 			shader.setX(0);
 			shader.setY(0);
 			shader.setWidth(getWidth());
 			shader.setHeight(getHeight());
 		});
+	}
+
+	public void shaderBackground(String s)
+	{
+		shaderBackground(s, 1);
 	}
 
 	public void minecraftLogo(int x, int y)
