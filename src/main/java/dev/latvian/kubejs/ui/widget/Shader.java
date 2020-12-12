@@ -2,7 +2,6 @@ package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -42,20 +41,19 @@ public class Shader extends Widget
 			return;
 		}
 
-		int sw = Minecraft.getInstance().getWindow().getWidth();
-		int sh = Minecraft.getInstance().getWindow().getHeight();
+		UI ui = getUi();
+
+		int sw = ui.screen.getMinecraft().getWindow().getWidth();
+		int sh = ui.screen.getMinecraft().getWindow().getHeight();
 
 		RenderSystem.color4f(255, 255, 255, 255);
 		RenderSystem.disableTexture();
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 
-		//RenderSystem.viewport(0, 0, w, h);
-
-		//program.safeGetUniform("ProjMat").set(shaderOrthoMatrix);
-		program.safeGetUniform("resolution").set(w, h);
-		program.safeGetUniform("time").set(getUi().time / 1000F);
-		//program.safeGetUniform("ScreenSize").set((float) sw, (float) sh);
+		program.safeGetUniform("resolution").set(sw, sh);
+		program.safeGetUniform("time").set(ui.time / 1000F);
+		program.safeGetUniform("mouse").set(ui.mouse.x / (float) sw, (ui.mouse.y / (float) sh));
 		program.apply();
 		RenderSystem.depthFunc(GL11.GL_ALWAYS);
 
@@ -76,6 +74,5 @@ public class Shader extends Widget
 		program.clear();
 
 		RenderSystem.enableTexture();
-		//RenderSystem.viewport(0, 0, sw, sh);
 	}
 }
