@@ -1,6 +1,7 @@
 package dev.latvian.kubejs.ui;
 
 import dev.latvian.kubejs.script.ScriptType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -38,7 +39,16 @@ public class KubeJSUIEventHandler
 
 				if (e.post(ScriptType.CLIENT, "ui." + id) && e.consumer != null)
 				{
-					event.setGui(new ScreenKubeJSUI(id, original, e.consumer));
+					Minecraft mc = Minecraft.getInstance();
+					int prevScale = mc.options.guiScale;
+
+					if (e.forcedScale >= 0)
+					{
+						mc.options.guiScale = e.forcedScale;
+						mc.resizeDisplay();
+					}
+
+					event.setGui(new ScreenKubeJSUI(id, original, e.consumer, prevScale));
 				}
 			}
 			catch (Exception ex)

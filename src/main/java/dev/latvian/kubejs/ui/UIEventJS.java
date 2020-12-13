@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 public class UIEventJS extends EventJS
 {
 	public Consumer<UI> consumer;
+	public int forcedScale = -1;
 
 	@Override
 	public boolean canCancel()

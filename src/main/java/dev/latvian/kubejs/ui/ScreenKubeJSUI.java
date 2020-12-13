@@ -24,15 +24,17 @@ public final class ScreenKubeJSUI extends Screen
 	public final String screenId;
 	public final Screen original;
 	public final Consumer<UI> consumer;
+	public final int prevScale;
 	public final UI ui;
 	public final Map<ResourceLocation, Optional<ShaderInstance>> shaders;
 
-	public ScreenKubeJSUI(String i, Screen o, Consumer<UI> c)
+	public ScreenKubeJSUI(String i, Screen o, Consumer<UI> c, int ps)
 	{
 		super(o.getTitle());
 		screenId = i;
 		original = o;
 		consumer = c;
+		prevScale = ps;
 		ui = new UI(this);
 		shaders = new HashMap<>();
 	}
@@ -96,6 +98,8 @@ public final class ScreenKubeJSUI extends Screen
 	public void removed()
 	{
 		clearCaches();
+		minecraft.options.guiScale = prevScale;
+		minecraft.resizeDisplay();
 		super.removed();
 	}
 
