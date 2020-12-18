@@ -38,11 +38,7 @@ public class Label extends Widget
 		matrixStack.translate(actualX, actualY, z);
 
 		int h = getHeight();
-
-		if (h > 10)
-		{
-			matrixStack.scale(h / 10F, h / 10F, 1F);
-		}
+		matrixStack.scale(h / 10F, h / 10F, 1F);
 
 		ITextComponent c = (isMouseOver && getAction() != null) ? cachedComponentUnderlined : cachedComponent;
 		int col = (isMouseOver ? hoverColor : color) | (alpha << 24);

@@ -9,9 +9,13 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.shader.ShaderInstance;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.fml.client.gui.GuiUtils;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -24,17 +28,17 @@ public final class ScreenKubeJSUI extends Screen
 	public final String screenId;
 	public final Screen original;
 	public final Consumer<UI> consumer;
-	public final int prevScale;
+	public final int forcedScale;
 	public final UI ui;
 	public final Map<ResourceLocation, Optional<ShaderInstance>> shaders;
 
-	public ScreenKubeJSUI(String i, Screen o, Consumer<UI> c, int ps)
+	public ScreenKubeJSUI(String i, Screen o, Consumer<UI> c, int fs)
 	{
 		super(o.getTitle());
 		screenId = i;
 		original = o;
 		consumer = c;
-		prevScale = ps;
+		forcedScale = fs;
 		ui = new UI(this);
 		shaders = new HashMap<>();
 	}
@@ -98,8 +102,6 @@ public final class ScreenKubeJSUI extends Screen
 	public void removed()
 	{
 		clearCaches();
-		minecraft.options.guiScale = prevScale;
-		minecraft.resizeDisplay();
 		super.removed();
 	}
 
@@ -109,7 +111,7 @@ public final class ScreenKubeJSUI extends Screen
 		original.renderBackground(matrixStack);
 		ui.mouse.x = mouseX;
 		ui.mouse.y = mouseY;
-		ui.time = System.currentTimeMillis() - ui.startTime;
+		ui.time = System.currentTimeMillis() - UI.startTime;
 
 		for (Widget w : ui.allWidgets)
 		{
@@ -135,6 +137,14 @@ public final class ScreenKubeJSUI extends Screen
 		ui.renderBackground(matrixStack, partialTicks);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		ui.renderForeground(matrixStack, partialTicks);
+
+		List<ITextComponent> list = new ArrayList<>();
+		ui.appendHoverText(list);
+
+		if (!list.isEmpty())
+		{
+			GuiUtils.drawHoveringText(matrixStack, list, mouseX, mouseY, width, height, 180, font);
+		}
 	}
 
 	@Override
@@ -161,8 +171,6 @@ public final class ScreenKubeJSUI extends Screen
 		if (keyCode == GLFW.GLFW_KEY_F5)
 		{
 			ui.tick = 0;
-			ui.startTime = System.currentTimeMillis();
-			ui.time = 0L;
 
 			if ((modifiers & GLFW.GLFW_MOD_CONTROL) != 0)
 			{
@@ -170,6 +178,11 @@ public final class ScreenKubeJSUI extends Screen
 				KubeJS.clientScriptManager.loadFromDirectory();
 				KubeJS.clientScriptManager.load();
 				minecraft.setScreen(this);
+			}
+			else
+			{
+				UI.startTime = System.currentTimeMillis();
+				ui.time = 0L;
 			}
 
 			return true;

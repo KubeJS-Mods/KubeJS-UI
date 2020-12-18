@@ -1,7 +1,6 @@
 package dev.latvian.kubejs.ui;
 
 import dev.latvian.kubejs.script.ScriptType;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -26,7 +25,24 @@ public class KubeJSUIEventHandler
 		}
 		else if (original instanceof ScreenKubeJSUI)
 		{
-			original = ((ScreenKubeJSUI) original).original;
+			ScreenKubeJSUI o = (ScreenKubeJSUI) original;
+
+			try
+			{
+				UIEventJS e = new UIEventJS();
+
+				if (e.post(ScriptType.CLIENT, "ui." + o.screenId) && e.consumer != null)
+				{
+					event.setGui(new ScreenKubeJSUI(o.screenId, o.original, e.consumer, e.forcedScale));
+				}
+			}
+			catch (Exception ex)
+			{
+				System.out.println("Failed to create " + o.screenId + " UI:");
+				ex.printStackTrace();
+			}
+
+			return;
 		}
 
 		String id = UIData.get().getScreenId(original.getClass());
@@ -39,16 +55,7 @@ public class KubeJSUIEventHandler
 
 				if (e.post(ScriptType.CLIENT, "ui." + id) && e.consumer != null)
 				{
-					Minecraft mc = Minecraft.getInstance();
-					int prevScale = mc.options.guiScale;
-
-					if (e.forcedScale >= 0)
-					{
-						mc.options.guiScale = e.forcedScale;
-						mc.resizeDisplay();
-					}
-
-					event.setGui(new ScreenKubeJSUI(id, original, e.consumer, prevScale));
+					event.setGui(new ScreenKubeJSUI(id, original, e.consumer, e.forcedScale));
 				}
 			}
 			catch (Exception ex)

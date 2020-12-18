@@ -18,6 +18,7 @@ import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -38,6 +39,7 @@ public class Widget extends AbstractGui
 	public Runnable mouseExit;
 	public int color;
 	public int hoverColor;
+	public List<ITextComponent> hoverTextComponents;
 
 	protected ITextComponent cachedComponent;
 	public int actualX, actualY;
@@ -192,5 +194,28 @@ public class Widget extends AbstractGui
 
 	public void mouseReleased()
 	{
+	}
+
+	public void setHoverText(Object[] array)
+	{
+		hoverTextComponents = new ArrayList<>(array.length);
+
+		for (Object o : array)
+		{
+			hoverTextComponents.add(Text.of(o).component());
+		}
+	}
+
+	public void setHoverText(Object o)
+	{
+		setHoverText(new Object[] {o});
+	}
+
+	public void appendHoverText(List<ITextComponent> list)
+	{
+		if (hoverTextComponents != null && isMouseOver)
+		{
+			list.addAll(hoverTextComponents);
+		}
 	}
 }

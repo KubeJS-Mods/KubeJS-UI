@@ -1,6 +1,7 @@
 package dev.latvian.kubejs.ui.widget;
 
 import dev.latvian.kubejs.text.Text;
+import dev.latvian.kubejs.ui.KubeJSUIOptions;
 import dev.latvian.kubejs.ui.ScreenKubeJSUI;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
@@ -21,7 +22,7 @@ public class UI extends Panel
 	private ResourceLocation widgetTexture;
 	public int tick;
 	public long time;
-	public long startTime;
+	public static long startTime;
 
 	public UI(ScreenKubeJSUI s)
 	{
@@ -31,8 +32,15 @@ public class UI extends Panel
 		widgetTexture = new ResourceLocation("minecraft:textures/gui/widgets.png");
 		setName(s.getTitle());
 		tick = 0;
-		time = 0L;
-		startTime = System.currentTimeMillis();
+
+		long now = System.currentTimeMillis();
+
+		if (startTime == 0L)
+		{
+			startTime = now;
+		}
+
+		time = now - startTime;
 	}
 
 	@Override
@@ -107,5 +115,10 @@ public class UI extends Panel
 		}
 
 		return screen.getUiFont().width(o.toString());
+	}
+
+	public boolean getUseShaders()
+	{
+		return KubeJSUIOptions.getInstance().useShaders;
 	}
 }

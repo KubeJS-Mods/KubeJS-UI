@@ -1,7 +1,9 @@
 package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import dev.latvian.kubejs.ui.KubeJSUIOptions;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,17 +86,20 @@ public class Panel extends Widget
 
 	public void shaderBackground(String s, int scale)
 	{
-		widget(() -> new Shader(getUi().screen.loadShader(new ResourceLocation(s)).orElse(null), scale), shader -> {
-			shader.setX(0);
-			shader.setY(0);
-			shader.setWidth(getWidth());
-			shader.setHeight(getHeight());
-		});
+		if (KubeJSUIOptions.getInstance().useShaders)
+		{
+			widget(() -> new Shader(getUi().screen.loadShader(new ResourceLocation(s)).orElse(null), scale), shader -> {
+				shader.setX(0);
+				shader.setY(0);
+				shader.setWidth(getWidth());
+				shader.setHeight(getHeight());
+			});
+		}
 	}
 
 	public void shaderBackground(String s)
 	{
-		shaderBackground(s, 1);
+		shaderBackground(s, KubeJSUIOptions.getInstance().defaultShaderScale);
 	}
 
 	public void minecraftLogo(int x, int y)
@@ -161,6 +166,17 @@ public class Panel extends Widget
 		for (Widget w : children)
 		{
 			w.mouseReleased();
+		}
+	}
+
+	@Override
+	public void appendHoverText(List<ITextComponent> list)
+	{
+		super.appendHoverText(list);
+
+		for (Widget w : children)
+		{
+			w.appendHoverText(list);
 		}
 	}
 }

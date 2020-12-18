@@ -1,0 +1,5 @@
+{
+	"actions": {
+		"toggle_shaders": "dev.latvian.kubejs.ui.VanillaActions.KUBEJSUI_TOGGLE_SHADERS"
+	}
+}

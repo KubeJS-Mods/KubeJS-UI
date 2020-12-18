@@ -65,10 +65,10 @@ public class Shader extends Widget
 		matrixStack.pushPose();
 		matrixStack.translate(actualX - 1, actualY - 1, z);
 		Matrix4f m = matrixStack.last().pose();
-		builder.vertex(m, 0F, 0F, 0F).color(255, 255, 255, 255).endVertex();
-		builder.vertex(m, w, 0F, 0F).color(255, 255, 255, 255).endVertex();
-		builder.vertex(m, w, h, 0F).color(255, 255, 255, 255).endVertex();
-		builder.vertex(m, 0F, h, 0F).color(255, 255, 255, 255).endVertex();
+		builder.vertex(m, 0F, 0F, 0F).color(255, 255, 255, 100).endVertex();
+		builder.vertex(m, w, 0F, 0F).color(255, 255, 255, 100).endVertex();
+		builder.vertex(m, w, h, 0F).color(255, 255, 255, 100).endVertex();
+		builder.vertex(m, 0F, h, 0F).color(255, 255, 255, 100).endVertex();
 		tessellator.end();
 		matrixStack.popPose();
 
