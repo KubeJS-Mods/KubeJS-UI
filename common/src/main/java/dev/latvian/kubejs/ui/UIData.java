@@ -6,10 +6,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.latvian.kubejs.KubeJS;
 import dev.latvian.kubejs.util.UtilsJS;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+
 import javax.annotation.Nullable;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,85 +25,76 @@ import java.util.function.Consumer;
 /**
  * @author LatvianModder
  */
-public class UIData
+public enum UIData implements ResourceManagerReloadListener
 {
-	private static UIData instance;
+	INSTANCE;
 
-	public static UIData get()
+	@Override
+	public void onResourceManagerReload(ResourceManager resourceManager)
 	{
-		if (instance == null)
+		screenIds.clear();
+		actions.clear();
+
+		Gson gson = new GsonBuilder().create();
+
+		for (String namespace : resourceManager.getNamespaces())
 		{
-			instance = new UIData();
-
-			Gson gson = new GsonBuilder().create();
-
-			for (String namespace : Minecraft.getInstance().getResourceManager().getNamespaces())
+			try
 			{
-				try
+				for (Resource resource : resourceManager.getResources(new ResourceLocation(namespace, "kubejsui.json")))
 				{
-					for (Resource resource : Minecraft.getInstance().getResourceManager().getResources(new ResourceLocation(namespace, "kubejsui.json")))
+					try (InputStream stream = resource.getInputStream())
 					{
-						try (InputStream stream = resource.getInputStream())
+						JsonObject json = gson.fromJson(new InputStreamReader(stream, StandardCharsets.UTF_8), JsonObject.class);
+
+						if (json.has("actions"))
 						{
-							JsonObject json = gson.fromJson(new InputStreamReader(stream, StandardCharsets.UTF_8), JsonObject.class);
-
-							if (json.has("actions"))
+							for (Map.Entry<String, JsonElement> entry : json.get("actions").getAsJsonObject().entrySet())
 							{
-								for (Map.Entry<String, JsonElement> entry : json.get("actions").getAsJsonObject().entrySet())
-								{
-									String s = entry.getValue().getAsString();
+								String s = entry.getValue().getAsString();
 
-									try
-									{
-										int i = s.lastIndexOf('.');
-										Class<?> clazz = Class.forName(s.substring(0, i));
-										Field field = clazz.getDeclaredField(s.substring(i + 1));
-										field.setAccessible(true);
-										Consumer<Screen> consumer = Objects.requireNonNull((Consumer<Screen>) field.get(null));
-										instance.actions.put(new ResourceLocation(namespace, entry.getKey()), consumer);
-									}
-									catch (Throwable ex)
-									{
-										KubeJS.LOGGER.error("UI: Failed to load action " + entry.getKey() + ":" + entry.getValue() + ": " + ex);
-									}
+								try
+								{
+									int i = s.lastIndexOf('.');
+									Class<?> clazz = Class.forName(s.substring(0, i));
+									Field field = clazz.getDeclaredField(s.substring(i + 1));
+									field.setAccessible(true);
+									Consumer<Screen> consumer = Objects.requireNonNull((Consumer<Screen>) field.get(null));
+									actions.put(new ResourceLocation(namespace, entry.getKey()), consumer);
+								}
+								catch (Throwable ex)
+								{
+									KubeJS.LOGGER.error("UI: Failed to load action " + entry.getKey() + ":" + entry.getValue() + ": " + ex);
 								}
 							}
+						}
 
-							if (json.has("screens"))
+						if (json.has("screens"))
+						{
+							for (Map.Entry<String, JsonElement> entry : json.get("screens").getAsJsonObject().entrySet())
 							{
-								for (Map.Entry<String, JsonElement> entry : json.get("screens").getAsJsonObject().entrySet())
+								try
 								{
-									try
-									{
-										Class<?> clazz = Class.forName(entry.getKey());
-										instance.screenIds.put(clazz, entry.getValue().getAsString());
-									}
-									catch (Throwable ex)
-									{
-										KubeJS.LOGGER.error("UI: Failed to load screen " + entry.getKey() + ":" + entry.getValue() + ": " + ex);
-									}
+									Class<?> clazz = Class.forName(entry.getKey());
+									screenIds.put(clazz, entry.getValue().getAsString());
+								}
+								catch (Throwable ex)
+								{
+									KubeJS.LOGGER.error("UI: Failed to load screen " + entry.getKey() + ":" + entry.getValue() + ": " + ex);
 								}
 							}
 						}
 					}
 				}
-				catch (Exception ex)
-				{
-				}
+			}
+			catch (Exception ignored)
+			{
 			}
 		}
-
-		return instance;
 	}
 
-	private final Map<Class, String> screenIds;
-	private final Map<ResourceLocation, Consumer<Screen>> actions;
-
-	private UIData()
-	{
-		screenIds = new HashMap<>();
-		actions = new HashMap<>();
-	}
+	private final Map<Class<?>, String> screenIds = new HashMap<>();
+	private final Map<ResourceLocation, Consumer<Screen>> actions = new HashMap<>();
 
 	@Nullable
 	public Consumer<Screen> getAction(String id)
@@ -109,8 +102,17 @@ public class UIData
 		return actions.get(UtilsJS.getMCID(id));
 	}
 
-	public String getScreenId(Class c)
+	public String getScreenId(Class<?> c)
 	{
 		return screenIds.getOrDefault(c, "");
+	}
+
+	/**
+	 * @deprecated This only exists for backwards compat purposes. Please use UIData.INSTANCE instead!
+	 */
+	@Deprecated
+	public static UIData get()
+	{
+		return INSTANCE;
 	}
 }

@@ -1,8 +1,10 @@
 package dev.latvian.kubejs.ui;
 
 import dev.latvian.kubejs.KubeJS;
+import me.shedaniel.architectury.registry.ReloadListeners;
 import me.shedaniel.architectury.utils.Env;
 import me.shedaniel.architectury.utils.EnvExecutor;
+import net.minecraft.server.packs.PackType;
 
 import static net.minecraft.world.InteractionResultHolder.*;
 
@@ -20,6 +22,9 @@ public class KubeJSUI
 	public static void init()
 	{
 		KubeJS.LOGGER.warn("thing");
-		EnvExecutor.runInEnv(Env.CLIENT, () -> () -> SetScreenEvent.EVENT.register(gui -> pass(KubeJSUIEventHandler.openGui(gui))));
+		EnvExecutor.runInEnv(Env.CLIENT, () -> () -> {
+			SetScreenEvent.EVENT.register(gui -> pass(KubeJSUIEventHandler.openGui(gui)));
+			ReloadListeners.registerReloadListener(PackType.CLIENT_RESOURCES, UIData.INSTANCE);
+		});
 	}
 }

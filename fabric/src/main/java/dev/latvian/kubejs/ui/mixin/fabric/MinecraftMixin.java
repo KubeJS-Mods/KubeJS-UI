@@ -40,7 +40,7 @@ public class MinecraftMixin
 		screen = event.getObject();
 		if (old != null && screen != old)
 		{
-			old.onClose();
+			old.removed();
 		}
 		return screen;
 	}

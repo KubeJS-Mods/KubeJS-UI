@@ -38,7 +38,7 @@ public class KubeJSUIEventHandler
 			return screen;
 		}
 
-		String id = UIData.get().getScreenId(original.getClass());
+		String id = UIData.INSTANCE.getScreenId(original.getClass());
 
 		if (!id.isEmpty())
 		{
