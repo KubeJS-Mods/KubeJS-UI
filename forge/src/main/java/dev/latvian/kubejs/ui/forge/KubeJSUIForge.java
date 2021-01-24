@@ -22,7 +22,7 @@ public class KubeJSUIForge
 	public void modifyScreen(GuiOpenEvent event)
 	{
 		InteractionResultHolder<Screen> result = SetScreenEvent.EVENT.invoker().modifyScreen(event.getGui());
-		if (result.getResult() != InteractionResult.PASS)
+		if (result.getResult() == InteractionResult.FAIL)
 		{
 			event.setCanceled(true);
 			return;
