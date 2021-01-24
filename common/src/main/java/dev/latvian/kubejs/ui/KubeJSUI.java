@@ -21,7 +21,6 @@ public class KubeJSUI
 
 	public static void init()
 	{
-		KubeJS.LOGGER.warn("thing");
 		EnvExecutor.runInEnv(Env.CLIENT, () -> () -> {
 			SetScreenEvent.EVENT.register(gui -> pass(KubeJSUIEventHandler.openGui(gui)));
 			ReloadListeners.registerReloadListener(PackType.CLIENT_RESOURCES, UIData.INSTANCE);
