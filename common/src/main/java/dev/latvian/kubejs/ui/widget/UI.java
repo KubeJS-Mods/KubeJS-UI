@@ -3,10 +3,11 @@ package dev.latvian.kubejs.ui.widget;
 import dev.latvian.kubejs.text.Text;
 import dev.latvian.kubejs.ui.KubeJSUIOptions;
 import dev.latvian.kubejs.ui.ScreenKubeJSUI;
-import javax.annotation.Nullable;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
+
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -32,7 +32,16 @@ dependencies {
     }
 
     modCompile("curse.maven:kubejs-fabric-395864:${rootProject.fabric_kjs_file}")
-    modCompile("curse.maven:roughly-enough-items-310111:${rootProject.fabric_rei_file}")
+    modCompile("curse.maven:rhino-416294:${rootProject.rhino_file}")
+
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.fabric_rei_version}") {
+        exclude group: "net.fabricmc.fabric-api"
+        exclude group: "net.fabricmc"
+    }
+    modRuntime("me.shedaniel:RoughlyEnoughItems:${rootProject.fabric_rei_version}") {
+        exclude group: "net.fabricmc.fabric-api"
+        exclude group: "net.fabricmc"
+    }
 }
 
 processResources {

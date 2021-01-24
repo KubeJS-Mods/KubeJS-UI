@@ -7,6 +7,9 @@ dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations
     // Do NOT use other classes from fabric loader
     modCompile "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+
+    // FIXME: DO NOT USE ANY FABRIC CLASSES FROM THIS...lat pls
+    modCompile("curse.maven:kubejs-fabric-395864:${rootProject.fabric_kjs_file}")
 }
 
 architectury {

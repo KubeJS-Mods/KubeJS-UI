@@ -10,7 +10,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.client.gui.GuiUtils;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -143,7 +142,8 @@ public final class ScreenKubeJSUI extends Screen
 
 		if (!list.isEmpty())
 		{
-			GuiUtils.drawHoveringText(matrixStack, list, mouseX, mouseY, width, height, 180, font);
+			renderComponentTooltip(matrixStack, list, mouseX, mouseY);
+			// GuiUtils.drawHoveringText(matrixStack, list, mouseX, mouseY, width, height, 180, font);
 		}
 	}
 

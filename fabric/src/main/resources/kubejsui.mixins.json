@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "dev.latvian.kubejs.ui.mixin.fabric",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [
+	],
+	"client": [
+		"MinecraftMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"minVersion": "0.8"
+}

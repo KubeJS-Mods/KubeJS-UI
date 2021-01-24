@@ -2,10 +2,8 @@ package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.latvian.kubejs.text.Text;
-import dev.latvian.kubejs.ui.KubeJSUI;
 import dev.latvian.kubejs.ui.UIData;
 import dev.latvian.kubejs.util.UtilsJS;
-import me.shedaniel.architectury.registry.Registries;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
@@ -18,7 +16,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -165,7 +162,10 @@ public class Widget extends GuiComponent
 		clickSound = e;
 	}
 
-	public void setClickSound(String sound) { setClickSound(Registry.SOUND_EVENT.get(UtilsJS.getMCID(sound))); }
+	public void setClickSound(String sound)
+	{
+		setClickSound(Registry.SOUND_EVENT.get(UtilsJS.getMCID(sound)));
+	}
 
 	public void collectWidgets(List<Widget> list)
 	{

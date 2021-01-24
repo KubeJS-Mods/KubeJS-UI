@@ -9,7 +9,6 @@ import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.gui.screens.multiplayer.SafetyScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.realms.RealmsBridge;
-import net.minecraftforge.fml.client.gui.screen.ModListScreen;
 
 import java.util.function.Consumer;
 
