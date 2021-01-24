@@ -8,7 +8,8 @@
 		"MinecraftMixin"
 	],
 	"injectors": {
-		"defaultRequire": 1
+		"defaultRequire": 1,
+		"maxShiftBy": 5
 	},
 	"minVersion": "0.8"
 }
