@@ -30,9 +30,6 @@ public interface VanillaActions
 	Consumer<Screen> QUIT = screen -> mc().stop();
 	Consumer<Screen> ACCESSIBILITY = screen -> mc().setScreen(new AccessibilityOptionsScreen(screen, mc().options));
 
-	// TODO: move to forge module
-	// Consumer<Screen> FORGE_MOD_LIST = screen -> mc().setScreen(new ModListScreen(screen));
-
 	Consumer<Screen> KUBEJSUI_TOGGLE_SHADERS = screen -> {
 		KubeJSUIOptions.getInstance().useShaders = !KubeJSUIOptions.getInstance().useShaders;
 		KubeJSUIOptions.getInstance().save();

@@ -1,5 +1,5 @@
 {
 	"actions": {
-		"mod_list": "dev.latvian.kubejs.ui.VanillaActions.FORGE_MOD_LIST"
+		"mod_list": "dev.latvian.kubejs.ui.forge.ForgeActions.FORGE_MOD_LIST"
 	}
 }

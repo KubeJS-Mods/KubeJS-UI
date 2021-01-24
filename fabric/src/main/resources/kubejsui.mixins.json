@@ -5,6 +5,7 @@
 	"mixins": [
 	],
 	"client": [
+		"EffectInstanceMixin",
 		"MinecraftMixin"
 	],
 	"injectors": {

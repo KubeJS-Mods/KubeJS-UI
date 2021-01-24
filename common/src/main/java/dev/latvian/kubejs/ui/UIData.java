@@ -80,7 +80,7 @@ public enum UIData implements ResourceManagerReloadListener
 								}
 								catch (Throwable ex)
 								{
-									KubeJS.LOGGER.error("UI: Failed to load screen " + entry.getKey() + ":" + entry.getValue() + ": " + ex);
+									// KubeJS.LOGGER.error("UI: Failed to load screen " + entry.getKey() + ":" + entry.getValue() + ": " + ex);
 								}
 							}
 						}

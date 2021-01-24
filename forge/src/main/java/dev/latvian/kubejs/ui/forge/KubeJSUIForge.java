@@ -7,6 +7,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod(KubeJSUI.MOD_ID)
@@ -15,7 +16,7 @@ public class KubeJSUIForge
 	public KubeJSUIForge()
 	{
 		KubeJSUI.init();
-		MinecraftForge.EVENT_BUS.addListener(this::modifyScreen);
+		MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::modifyScreen);
 	}
 
 	public void modifyScreen(GuiOpenEvent event)
