@@ -8,13 +8,13 @@ import net.minecraft.client.gui.screens.Screen;
  */
 public class KubeJSUIEventHandler
 {
-	public static void openGui(DummyGuiOpenEvent event)
+	public static Screen openGui(Screen screen)
 	{
-		Screen original = event.getGui();
+		Screen original = screen;
 
 		if (original == null)
 		{
-			return;
+			return screen;
 		}
 		else if (original instanceof ScreenKubeJSUI)
 		{
@@ -26,7 +26,7 @@ public class KubeJSUIEventHandler
 
 				if (e.post(ScriptType.CLIENT, "ui." + o.screenId) && e.consumer != null)
 				{
-					event.setGui(new ScreenKubeJSUI(o.screenId, o.original, e.consumer, e.forcedScale));
+					screen = new ScreenKubeJSUI(o.screenId, o.original, e.consumer, e.forcedScale);
 				}
 			}
 			catch (Exception ex)
@@ -35,7 +35,7 @@ public class KubeJSUIEventHandler
 				ex.printStackTrace();
 			}
 
-			return;
+			return screen;
 		}
 
 		String id = UIData.get().getScreenId(original.getClass());
@@ -48,7 +48,7 @@ public class KubeJSUIEventHandler
 
 				if (e.post(ScriptType.CLIENT, "ui." + id) && e.consumer != null)
 				{
-					event.setGui(new ScreenKubeJSUI(id, original, e.consumer, e.forcedScale));
+					screen = new ScreenKubeJSUI(id, original, e.consumer, e.forcedScale);
 				}
 			}
 			catch (Exception ex)
@@ -57,5 +57,7 @@ public class KubeJSUIEventHandler
 				ex.printStackTrace();
 			}
 		}
+
+		return screen;
 	}
 }

@@ -3,7 +3,8 @@ package dev.latvian.kubejs.ui;
 import dev.latvian.kubejs.KubeJS;
 import me.shedaniel.architectury.utils.Env;
 import me.shedaniel.architectury.utils.EnvExecutor;
-import net.minecraft.world.InteractionResult;
+
+import static net.minecraft.world.InteractionResultHolder.*;
 
 /**
  * @author LatvianModder
@@ -19,9 +20,6 @@ public class KubeJSUI
 	public static void init()
 	{
 		KubeJS.LOGGER.warn("thing");
-		EnvExecutor.runInEnv(Env.CLIENT, () -> () -> DummyGuiOpenEvent.EVENT.register((event) -> {
-			KubeJSUIEventHandler.openGui(event);
-			return InteractionResult.PASS;
-		}));
+		EnvExecutor.runInEnv(Env.CLIENT, () -> () -> SetScreenEvent.EVENT.register(gui -> pass(KubeJSUIEventHandler.openGui(gui))));
 	}
 }

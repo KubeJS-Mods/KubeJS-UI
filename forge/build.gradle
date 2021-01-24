@@ -35,6 +35,8 @@ dependencies {
     }
 
     modCompile("curse.maven:kubejs-238086:${rootProject.forge_kjs_file}")
+    modCompile("curse.maven:rhino-416294:${rootProject.rhino_file}")
+
     modCompile("curse.maven:jei-238222:${rootProject.forge_jei_file}")
 }
 
