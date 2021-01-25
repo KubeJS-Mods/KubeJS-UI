@@ -19,3 +19,10 @@ mandatory = true
 versionRange = "[1604,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies.kubejs_ui]]
+modId = "architectury"
+mandatory = true
+versionRange = "[1.4.100,)"
+ordering = "AFTER"
+side = "BOTH"
