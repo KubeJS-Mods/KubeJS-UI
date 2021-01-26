@@ -1,0 +1,27 @@
+{
+	"schemaVersion": 1,
+	"id": "kubejs_ui",
+	"version": "${version}",
+	"name": "KubeJS UI",
+	"description": "KubeJS UI - Edit main menu with scripts",
+	"authors": [
+		"LatvianModder"
+	],
+	"contact": {
+		"sources": "https://github.com/KubeJS-Mods/KubeJS-UI",
+		"issues": "https://github.com/KubeJS-Mods/KubeJS-UI/issues"
+	},
+	"license": "GNU LGPLv3",
+	"entrypoints": {
+		"main": [
+			"dev.latvian.kubejs.ui.KubeJSUI::init"
+		]
+	},
+	"mixins": [
+	],
+	"depends": {
+		"minecraft": "~1.16.2",
+		"kubejs": "*",
+		"architectury": ">=1.4.100"
+	}
+}

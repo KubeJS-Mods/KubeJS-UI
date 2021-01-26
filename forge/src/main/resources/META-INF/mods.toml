@@ -1,0 +1,28 @@
+modLoader = "javafml"
+loaderVersion = "[35,)"
+issueTrackerURL = "https://github.com/KubeJS-Mods/KubeJS-UI/issues"
+license = "GNU LGPLv3"
+
+[[mods]]
+modId = "kubejs_ui"
+version = "${version}"
+displayName = "KubeJS UI"
+authors = "LatvianModder"
+description = '''
+KubeJS UI - Edit main menu with scripts
+'''
+license = "GNU LGPLv3"
+
+[[dependencies.kubejs_ui]]
+modId = "kubejs"
+mandatory = true
+versionRange = "[1604,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.kubejs_ui]]
+modId = "architectury"
+mandatory = true
+versionRange = "[1.4.100,)"
+ordering = "AFTER"
+side = "BOTH"
