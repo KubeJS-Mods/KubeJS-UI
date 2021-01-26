@@ -2,6 +2,7 @@ package dev.latvian.kubejs.ui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.latvian.kubejs.KubeJS;
+import dev.latvian.kubejs.client.KubeJSClient;
 import dev.latvian.kubejs.ui.widget.UI;
 import dev.latvian.kubejs.ui.widget.Widget;
 import net.minecraft.client.Minecraft;
@@ -174,9 +175,7 @@ public final class ScreenKubeJSUI extends Screen
 
 			if ((modifiers & GLFW.GLFW_MOD_CONTROL) != 0)
 			{
-				KubeJS.clientScriptManager.unload();
-				KubeJS.clientScriptManager.loadFromDirectory();
-				KubeJS.clientScriptManager.load();
+				KubeJSClient.reloadClientScripts();
 				minecraft.setScreen(this);
 			}
 			else
