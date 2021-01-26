@@ -1,53 +1,53 @@
 plugins {
-    id "architectury-plugin" version "2.0.64"
-    id "forgified-fabric-loom" version "0.6.53" apply false
-    id "com.matthewprenger.cursegradle" version "1.4.0" apply false
+	id "architectury-plugin" version "2.0.64"
+	id "forgified-fabric-loom" version "0.6.53" apply false
+	id "com.matthewprenger.cursegradle" version "1.4.0" apply false
 }
 
 architectury {
-    minecraft = rootProject.minecraft_version
+	minecraft = rootProject.minecraft_version
 }
 
 subprojects {
-    apply plugin: "forgified-fabric-loom"
+	apply plugin: "forgified-fabric-loom"
 
-    loom {
-        silentMojangMappingsLicense()
-    }
+	loom {
+		silentMojangMappingsLicense()
+	}
 }
 
 allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply from: "https://files.latmod.com/public/markdown-git-changelog.gradle"
+	apply plugin: "java"
+	apply plugin: "architectury-plugin"
+	apply from: "https://files.latmod.com/public/markdown-git-changelog.gradle"
 
-    archivesBaseName = rootProject.archives_base_name
-    def ENV = System.getenv()
-    version = ENV.BUILD_NUMBER ? "${rootProject.mod_version}.${ENV.BUILD_NUMBER}" : "${rootProject.mod_version}.custom"
-    group = rootProject.maven_group
+	archivesBaseName = rootProject.archives_base_name
+	def ENV = System.getenv()
+	version = ENV.BUILD_NUMBER ? "${rootProject.mod_version}.${ENV.BUILD_NUMBER}" : "${rootProject.mod_version}.custom"
+	group = rootProject.maven_group
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
+	tasks.withType(JavaCompile) {
+		options.encoding = "UTF-8"
 
-        // The Minecraft launcher currently installs Java 8 for users, so your mod probably wants to target Java 8 too
-        // JDK 9 introduced a new way of specifying this that will make sure no newer classes or methods are used.
-        // We'll use that if it's available, but otherwise we'll use the older option.
-        def targetVersion = 8
-        if (JavaVersion.current().isJava9Compatible()) {
-            options.release = targetVersion
-        }
-    }
+		// The Minecraft launcher currently installs Java 8 for users, so your mod probably wants to target Java 8 too
+		// JDK 9 introduced a new way of specifying this that will make sure no newer classes or methods are used.
+		// We'll use that if it's available, but otherwise we'll use the older option.
+		def targetVersion = 8
+		if (JavaVersion.current().isJava9Compatible()) {
+			options.release = targetVersion
+		}
+	}
 
-    java {
-        withSourcesJar()
-    }
+	java {
+		withSourcesJar()
+	}
 
-    repositories {
-        maven {
-            url "https://www.cursemaven.com"
-            content {
-                includeGroup "curse.maven"
-            }
-        }
-    }
+	repositories {
+		maven {
+			url "https://www.cursemaven.com"
+			content {
+				includeGroup "curse.maven"
+			}
+		}
+	}
 }
