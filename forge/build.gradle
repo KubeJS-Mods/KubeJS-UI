@@ -64,7 +64,6 @@ remapJar {
 jar {
 	manifest {
 		attributes([
-				// "MixinConfigs"            : "kubejsui.mixins.json",
 				"Specification-Title"     : project.mod_id,
 				"Specification-Vendor"    : project.mod_author,
 				"Specification-Version"   : "1",
