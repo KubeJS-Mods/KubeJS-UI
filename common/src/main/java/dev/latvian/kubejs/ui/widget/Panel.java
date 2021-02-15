@@ -84,6 +84,30 @@ public class Panel extends Widget
 		});
 	}
 
+	public void fillBackground(String texture, int tw, int th)
+	{
+		image(image -> {
+			image.setTexture(texture);
+
+			double fw = getWidth() / (double) tw;
+			double fh = getHeight() / (double) th;
+
+			if (fw > fh)
+			{
+				image.setWidth((int) (tw * fw));
+				image.setHeight((int) (th * fw));
+			}
+			else
+			{
+				image.setWidth((int) (tw * fh));
+				image.setHeight((int) (th * fh));
+			}
+
+			image.setX((getWidth() - image.getWidth()) / 2);
+			image.setY((getHeight() - image.getHeight()) / 2);
+		});
+	}
+
 	public void shaderBackground(String s, int scale)
 	{
 		if (KubeJSUIOptions.getInstance().useShaders)

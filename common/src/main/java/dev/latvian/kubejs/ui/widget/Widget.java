@@ -113,6 +113,11 @@ public class Widget extends GuiComponent
 		width = w;
 	}
 
+	public double getActualWidth()
+	{
+		return getWidth() / getUi().getScale();
+	}
+
 	public int getHeight()
 	{
 		return height;
@@ -121,6 +126,11 @@ public class Widget extends GuiComponent
 	public void setHeight(int h)
 	{
 		height = h;
+	}
+
+	public double getActualHeight()
+	{
+		return getHeight() / getUi().getScale();
 	}
 
 	public Text getName()
