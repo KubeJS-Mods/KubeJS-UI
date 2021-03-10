@@ -23,5 +23,8 @@
 		"minecraft": "~1.16.2",
 		"kubejs": "*",
 		"architectury": ">=1.4.100"
+	},
+	"breaks": {
+		"modmenu": "<1.15.0"
 	}
 }

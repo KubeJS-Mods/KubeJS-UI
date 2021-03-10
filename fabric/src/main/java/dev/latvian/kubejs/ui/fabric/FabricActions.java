@@ -1,6 +1,6 @@
 package dev.latvian.kubejs.ui.fabric;
 
-import io.github.prospector.modmenu.gui.ModsScreen;
+import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.shedaniel.architectury.platform.Platform;
 import net.minecraft.client.gui.screens.Screen;
 
@@ -13,7 +13,7 @@ public interface FabricActions
 	Consumer<Screen> FABRIC_MOD_LIST = screen -> {
 		if (Platform.isModLoaded("modmenu"))
 		{
-			mc().setScreen(new ModsScreen(screen));
+			ModMenuApi.createModsScreen(screen);
 		}
 	};
 }

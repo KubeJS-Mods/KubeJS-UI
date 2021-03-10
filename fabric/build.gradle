@@ -13,6 +13,12 @@ architectury {
 	platformSetupLoomIde()
 }
 
+repositories {
+    maven {
+        url 'https://maven.terraformersmc.com/'
+    }
+}
+
 dependencies {
 	minecraft("com.mojang:minecraft:${rootProject.minecraft_version}")
 	mappings(minecraft.officialMojangMappings())
@@ -34,7 +40,7 @@ dependencies {
 	modCompile("curse.maven:kubejs-fabric-395864:${rootProject.fabric_kjs_file}")
 	modCompile("curse.maven:rhino-416294:${rootProject.rhino_file}")
 
-	modCompile("io.github.prospector:modmenu:${rootProject.fabric_mod_menu_version}")
+    modCompile("com.terraformersmc:modmenu:${rootProject.fabric_mod_menu_version}")
 
 	modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.fabric_rei_version}") {
 		exclude group: "net.fabricmc.fabric-api"
