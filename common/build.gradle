@@ -12,6 +12,28 @@ dependencies {
 	modCompile("curse.maven:kubejs-fabric-395864:${rootProject.fabric_kjs_file}")
 }
 
+def ENV = System.getenv()
+
 architectury {
 	common()
+}
+
+publishing {
+	publications {
+		mavenCommon(MavenPublication) {
+			artifactId = rootProject.archivesBaseName
+			artifact(file("${project.buildDir}/libs/${project.archivesBaseName}-${project.version}.jar")) {
+				builtBy build
+			}
+		}
+	}
+
+	repositories {
+		if (ENV.LOCAL_MAVEN) {
+			maven {
+				// upload to local maven repo
+				url = "file://${ENV.LOCAL_MAVEN}"
+			}
+		}
+	}
 }

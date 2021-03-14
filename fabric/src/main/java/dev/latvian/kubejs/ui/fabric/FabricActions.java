@@ -6,14 +6,12 @@ import net.minecraft.client.gui.screens.Screen;
 
 import java.util.function.Consumer;
 
-import static dev.latvian.kubejs.ui.VanillaActions.*;
+import static dev.latvian.kubejs.ui.VanillaActions.mc;
 
-public interface FabricActions
-{
+public interface FabricActions {
 	Consumer<Screen> FABRIC_MOD_LIST = screen -> {
-		if (Platform.isModLoaded("modmenu"))
-		{
-			ModMenuApi.createModsScreen(screen);
+		if (Platform.isModLoaded("modmenu")) {
+			mc().setScreen(ModMenuApi.createModsScreen(screen));
 		}
 	};
 }
