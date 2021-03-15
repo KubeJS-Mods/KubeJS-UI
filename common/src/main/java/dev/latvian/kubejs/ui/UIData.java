@@ -6,6 +6,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.latvian.kubejs.KubeJS;
 import dev.latvian.kubejs.util.UtilsJS;
+import me.shedaniel.architectury.platform.Platform;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
@@ -73,10 +75,13 @@ public enum UIData implements ResourceManagerReloadListener
 						{
 							for (Map.Entry<String, JsonElement> entry : json.get("screens").getAsJsonObject().entrySet())
 							{
+								if (Platform.isFabric())
+								{
+									addMappedScreen(entry);
+								}
 								try
 								{
-									Class<?> clazz = Class.forName(entry.getKey());
-									screenIds.put(clazz, entry.getValue().getAsString());
+									screenIds.put(Class.forName(entry.getKey()), entry.getValue().getAsString());
 								}
 								catch (Throwable ex)
 								{
@@ -90,6 +95,20 @@ public enum UIData implements ResourceManagerReloadListener
 			catch (Exception ignored)
 			{
 			}
+		}
+	}
+
+	private void addMappedScreen(Map.Entry<String, JsonElement> entry)
+	{
+		if (FabricLoader.getInstance().getMappingResolver().getCurrentRuntimeNamespace().equals("intermediary")) return;
+		try
+		{
+			String className = FabricLoader.getInstance().getMappingResolver().mapClassName("intermediary", entry.getKey());
+			screenIds.put(Class.forName(className), entry.getValue().getAsString());
+		}
+		catch (Throwable ex)
+		{
+			// KubeJS.LOGGER.error("UI: Failed to load screen " + entry.getKey() + ":" + entry.getValue() + ": " + ex);
 		}
 	}
 
