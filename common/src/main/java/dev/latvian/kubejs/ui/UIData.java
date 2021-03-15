@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.latvian.kubejs.KubeJS;
 import dev.latvian.kubejs.util.UtilsJS;
+import me.shedaniel.architectury.annotations.ExpectPlatform;
 import me.shedaniel.architectury.platform.Platform;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.Screen;
@@ -77,7 +78,7 @@ public enum UIData implements ResourceManagerReloadListener
 							{
 								if (Platform.isFabric())
 								{
-									addMappedScreen(entry);
+									addMappedScreen(screenIds, entry);
 								}
 								try
 								{
@@ -98,18 +99,10 @@ public enum UIData implements ResourceManagerReloadListener
 		}
 	}
 
-	private void addMappedScreen(Map.Entry<String, JsonElement> entry)
+	@ExpectPlatform
+	private static void addMappedScreen(Map<Class<?>, String> screenIds, Map.Entry<String, JsonElement> entry)
 	{
-		if (FabricLoader.getInstance().getMappingResolver().getCurrentRuntimeNamespace().equals("intermediary")) return;
-		try
-		{
-			String className = FabricLoader.getInstance().getMappingResolver().mapClassName("intermediary", entry.getKey());
-			screenIds.put(Class.forName(className), entry.getValue().getAsString());
-		}
-		catch (Throwable ex)
-		{
-			// KubeJS.LOGGER.error("UI: Failed to load screen " + entry.getKey() + ":" + entry.getValue() + ": " + ex);
-		}
+		throw new AssertionError();
 	}
 
 	private final Map<Class<?>, String> screenIds = new HashMap<>();
