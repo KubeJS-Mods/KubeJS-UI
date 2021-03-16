@@ -6,11 +6,12 @@ plugins {
 def ENV = System.getenv()
 
 configurations {
-	shadow
+	shadowCommon
 }
 
 architectury {
 	platformSetupLoomIde()
+	fabric()
 }
 
 repositories {
@@ -22,25 +23,25 @@ repositories {
 dependencies {
 	minecraft("com.mojang:minecraft:${rootProject.minecraft_version}")
 	mappings(minecraft.officialMojangMappings())
-	modCompile("net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}")
-	modCompile("net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}")
+	modImplementation("net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}")
+	modApi("net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}")
 
-	modCompile("me.shedaniel:architectury:${rootProject.architectury_version}:fabric")
+	modApi("me.shedaniel:architectury-snapshot-fabric:${rootProject.architectury_version}")
 
-	compileOnly(project(path: ":common")) {
+	implementation(project(path: ":common")) {
 		transitive = false
 	}
-	runtimeOnly(project(path: ":common", configuration: "transformDevelopmentFabric")) {
+	developmentFabric(project(path: ":common")) {
 		transitive = false
 	}
-	shadow(project(path: ":common", configuration: "transformProductionFabric")) {
+	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
 		transitive = false
 	}
 
-	modCompile("curse.maven:kubejs-fabric-395864:${rootProject.fabric_kjs_file}")
-	modCompile("curse.maven:rhino-416294:${rootProject.rhino_file}")
+	modApi("curse.maven:kubejs-fabric-395864:${rootProject.fabric_kjs_file}")
+	modApi("curse.maven:rhino-416294:${rootProject.rhino_file}")
 
-    modCompile("com.terraformersmc:modmenu:${rootProject.fabric_mod_menu_version}")
+	modApi("com.terraformersmc:modmenu:${rootProject.fabric_mod_menu_version}")
 
 	modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.fabric_rei_version}") {
 		exclude group: "net.fabricmc.fabric-api"
@@ -61,7 +62,7 @@ processResources {
 }
 
 shadowJar {
-	configurations = [project.configurations.shadow]
+	configurations = [project.configurations.shadowCommon]
 	classifier "shadow"
 }
 
