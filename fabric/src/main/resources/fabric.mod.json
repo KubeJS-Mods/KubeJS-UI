@@ -7,6 +7,7 @@
 	"authors": [
 		"LatvianModder"
 	],
+	"environment": "client",
 	"contact": {
 		"sources": "https://github.com/KubeJS-Mods/KubeJS-UI",
 		"issues": "https://github.com/KubeJS-Mods/KubeJS-UI/issues"
