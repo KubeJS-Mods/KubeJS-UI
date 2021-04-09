@@ -6,15 +6,12 @@ plugins {
 def ENV = System.getenv()
 
 configurations {
-	shadow
+	shadowCommon
 }
 
 architectury {
 	platformSetupLoomIde()
-}
-
-loom {
-	useFabricMixin = true
+	forge()
 }
 
 dependencies {
@@ -22,22 +19,22 @@ dependencies {
 	mappings(minecraft.officialMojangMappings())
 	forge("net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}")
 
-	modCompile("me.shedaniel:architectury:${rootProject.architectury_version}:forge")
+	modApi("me.shedaniel:architectury-snapshot-forge:${rootProject.architectury_version}")
 
-	compileOnly(project(path: ":common")) {
+	implementation(project(path: ":common")) {
 		transitive = false
 	}
-	runtimeOnly(project(path: ":common", configuration: "transformDevelopmentForge")) {
+	developmentForge(project(path: ":common")) {
 		transitive = false
 	}
-	shadow(project(path: ":common", configuration: "transformProductionForge")) {
+	shadowCommon(project(path: ":common", configuration: "transformProductionForge")) {
 		transitive = false
 	}
 
-	modCompile("curse.maven:kubejs-238086:${rootProject.forge_kjs_file}")
-	modCompile("curse.maven:rhino-416294:${rootProject.rhino_file}")
+	modApi("curse.maven:kubejs-238086:${rootProject.forge_kjs_file}")
+	modApi("curse.maven:rhino-416294:${rootProject.rhino_file}")
 
-	modCompile("curse.maven:jei-238222:${rootProject.forge_jei_file}")
+	modApi("curse.maven:jei-238222:${rootProject.forge_jei_file}")
 }
 
 processResources {
@@ -51,7 +48,7 @@ processResources {
 shadowJar {
 	exclude "fabric.mod.json"
 
-	configurations = [project.configurations.shadow]
+	configurations = [project.configurations.shadowCommon]
 	classifier "shadow"
 }
 
@@ -68,7 +65,7 @@ jar {
 				"Specification-Vendor"    : project.mod_author,
 				"Specification-Version"   : "1",
 				"Implementation-Title"    : project.name,
-				"Implementation-Version"  : version,
+				"Implementation-Version"  : project.version,
 				"Implementation-Vendor"   : project.mod_author,
 				"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
 		])

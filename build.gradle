@@ -1,6 +1,6 @@
 plugins {
-	id "architectury-plugin" version "2.0.65"
-	id "forgified-fabric-loom" version "0.6.56" apply false
+	id "architectury-plugin" version "3.0-SNAPSHOT"
+	id "forgified-fabric-loom" version "0.6-SNAPSHOT" apply false
 	id "com.matthewprenger.cursegradle" version "1.4.0" apply false
 	id "maven-publish"
 }
@@ -24,7 +24,7 @@ allprojects {
 
 	archivesBaseName = rootProject.archives_base_name
 	def ENV = System.getenv()
-	version = "${mod_version}-build.${ENV.BUILD_NUMBER ?: 9999}"
+	version = "${mod_version}-build.${ENV.GITHUB_RUN_NUMBER ?: 9999}"
 	group = rootProject.maven_group
 
 	tasks.withType(JavaCompile) {

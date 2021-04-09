@@ -6,6 +6,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.latvian.kubejs.KubeJS;
 import dev.latvian.kubejs.util.UtilsJS;
+import me.shedaniel.architectury.annotations.ExpectPlatform;
+import me.shedaniel.architectury.platform.Platform;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
@@ -73,10 +76,13 @@ public enum UIData implements ResourceManagerReloadListener
 						{
 							for (Map.Entry<String, JsonElement> entry : json.get("screens").getAsJsonObject().entrySet())
 							{
+								if (Platform.isFabric())
+								{
+									addMappedScreen(screenIds, entry);
+								}
 								try
 								{
-									Class<?> clazz = Class.forName(entry.getKey());
-									screenIds.put(clazz, entry.getValue().getAsString());
+									screenIds.put(Class.forName(entry.getKey()), entry.getValue().getAsString());
 								}
 								catch (Throwable ex)
 								{
@@ -91,6 +97,12 @@ public enum UIData implements ResourceManagerReloadListener
 			{
 			}
 		}
+	}
+
+	@ExpectPlatform
+	private static void addMappedScreen(Map<Class<?>, String> screenIds, Map.Entry<String, JsonElement> entry)
+	{
+		throw new AssertionError();
 	}
 
 	private final Map<Class<?>, String> screenIds = new HashMap<>();
