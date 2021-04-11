@@ -24,7 +24,7 @@ public class KubeJSUIEventHandler {
 					return success(new ScreenKubeJSUI(o.screenId, o.original, e.consumer, e.forcedScale));
 				}
 			} catch (Exception ex) {
-				System.out.println("Failed to create " + o.screenId + " UI:");
+				ScriptType.CLIENT.console.error("Failed to create " + o.screenId + " UI:");
 				ex.printStackTrace();
 			}
 
@@ -41,7 +41,7 @@ public class KubeJSUIEventHandler {
 					return success(new ScreenKubeJSUI(id, screen, e.consumer, e.forcedScale));
 				}
 			} catch (Exception ex) {
-				System.out.println("Failed to create " + id + " UI:");
+				ScriptType.CLIENT.console.error("Failed to create " + id + " UI:");
 				ex.printStackTrace();
 			}
 		}

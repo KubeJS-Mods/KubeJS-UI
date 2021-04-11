@@ -3,6 +3,7 @@ package dev.latvian.kubejs.ui;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.latvian.kubejs.KubeJS;
 import dev.latvian.kubejs.client.KubeJSClient;
+import dev.latvian.kubejs.ui.widget.Panorama;
 import dev.latvian.kubejs.ui.widget.UI;
 import dev.latvian.kubejs.ui.widget.Widget;
 import net.minecraft.client.Minecraft;
@@ -66,7 +67,7 @@ public final class ScreenKubeJSUI extends Screen {
 
 	@Override
 	public boolean shouldCloseOnEsc() {
-		return original.shouldCloseOnEsc();
+		return original.shouldCloseOnEsc() || screenId.startsWith("$");
 	}
 
 	@Override
@@ -152,6 +153,7 @@ public final class ScreenKubeJSUI extends Screen {
 			} else {
 				UI.startTime = System.currentTimeMillis();
 				ui.time = 0L;
+				Panorama.panoramaTime = 0F;
 			}
 
 			return true;

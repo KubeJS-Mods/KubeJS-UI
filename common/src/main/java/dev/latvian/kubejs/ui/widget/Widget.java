@@ -1,8 +1,11 @@
 package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.latvian.kubejs.script.ScriptType;
 import dev.latvian.kubejs.text.Text;
+import dev.latvian.kubejs.ui.ScreenKubeJSUI;
 import dev.latvian.kubejs.ui.UIData;
+import dev.latvian.kubejs.ui.UIEventJS;
 import dev.latvian.kubejs.util.UtilsJS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -137,10 +140,23 @@ public class Widget extends GuiComponent {
 	}
 
 	public void setAction(String id) {
-		if (id.startsWith("http://") || id.startsWith("https://")) {
+		if (id.startsWith("$")) {
+			setAction(s -> {
+				try {
+					UIEventJS e = new UIEventJS();
+
+					if (e.post(ScriptType.CLIENT, "ui." + id) && e.consumer != null) {
+						Minecraft.getInstance().setScreen(new ScreenKubeJSUI(id, s, e.consumer, e.forcedScale));
+					}
+				} catch (Exception ex) {
+					ScriptType.CLIENT.console.error("Failed to create " + id + " UI:");
+					ex.printStackTrace();
+				}
+			});
+		} else if (id.startsWith("http://") || id.startsWith("https://")) {
 			setAction(screen -> getUi().screen.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, id))));
 		} else {
-			setAction(UIData.get().getAction(id));
+			setAction(UIData.INSTANCE.getAction(id));
 		}
 	}
 
