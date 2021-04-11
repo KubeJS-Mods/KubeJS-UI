@@ -14,50 +14,40 @@ import org.lwjgl.opengl.GL11;
 /**
  * @author LatvianModder
  */
-public class ImageButton extends Widget
-{
+public class ImageButton extends Widget {
 	private ResourceLocation texture;
 	private ResourceLocation hoverTexture;
 
-	public ImageButton()
-	{
+	public ImageButton() {
 		z = 10;
 		setWidth(20);
 		setHeight(20);
 	}
 
-	public void setTexture(String tex)
-	{
+	public void setTexture(String tex) {
 		texture = UtilsJS.getMCID(tex);
 		hoverTexture = texture;
 	}
 
-	public void setHoverTexture(String tex)
-	{
+	public void setHoverTexture(String tex) {
 		hoverTexture = UtilsJS.getMCID(tex);
 	}
 
 	@Override
-	public void renderBackground(PoseStack matrixStack, float partialTicks)
-	{
+	public void renderBackground(PoseStack matrixStack, float partialTicks) {
 		Minecraft minecraft = Minecraft.getInstance();
 		minecraft.getTextureManager().bind(getUi().getWidgetTexture());
 		RenderSystem.color4f(255, 255, 255, alpha);
 		int i;
 		int j;
 
-		if (!enabled || getAction() == null)
-		{
+		if (!enabled || getAction() == null) {
 			i = 0;
 			j = 0xCCCCCC;
-		}
-		else if (isMouseOver)
-		{
+		} else if (isMouseOver) {
 			i = 2;
 			j = hoverColor;
-		}
-		else
-		{
+		} else {
 			i = 1;
 			j = color;
 		}

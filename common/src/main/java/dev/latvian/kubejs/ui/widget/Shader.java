@@ -14,13 +14,11 @@ import javax.annotation.Nullable;
 /**
  * @author LatvianModder
  */
-public class Shader extends Widget
-{
+public class Shader extends Widget {
 	public final EffectInstance program;
 	public final float scale;
 
-	public Shader(@Nullable EffectInstance s, float sc)
-	{
+	public Shader(@Nullable EffectInstance s, float sc) {
 		program = s;
 		scale = Math.max(sc, 1F);
 		setWidth(64);
@@ -28,18 +26,15 @@ public class Shader extends Widget
 	}
 
 	@Override
-	public void renderBackground(PoseStack matrixStack, float partialTicks)
-	{
-		if (program == null)
-		{
+	public void renderBackground(PoseStack matrixStack, float partialTicks) {
+		if (program == null) {
 			return;
 		}
 
 		int w = getWidth();
 		int h = getHeight();
 
-		if (w <= 0 || h <= 0)
-		{
+		if (w <= 0 || h <= 0) {
 			return;
 		}
 

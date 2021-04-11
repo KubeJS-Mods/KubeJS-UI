@@ -4,34 +4,26 @@ import dev.latvian.kubejs.script.ScriptType;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.InteractionResultHolder;
 
-import static net.minecraft.world.InteractionResultHolder.*;
+import static net.minecraft.world.InteractionResultHolder.pass;
+import static net.minecraft.world.InteractionResultHolder.success;
 
 /**
  * @author LatvianModder
  */
-public class KubeJSUIEventHandler
-{
-	public static InteractionResultHolder<Screen> openGui(Screen screen)
-	{
-		if (screen == null)
-		{
+public class KubeJSUIEventHandler {
+	public static InteractionResultHolder<Screen> openGui(Screen screen) {
+		if (screen == null) {
 			return pass(screen);
-		}
-		else if (screen instanceof ScreenKubeJSUI)
-		{
+		} else if (screen instanceof ScreenKubeJSUI) {
 			ScreenKubeJSUI o = (ScreenKubeJSUI) screen;
 
-			try
-			{
+			try {
 				UIEventJS e = new UIEventJS();
 
-				if (e.post(ScriptType.CLIENT, "ui." + o.screenId) && e.consumer != null)
-				{
+				if (e.post(ScriptType.CLIENT, "ui." + o.screenId) && e.consumer != null) {
 					return success(new ScreenKubeJSUI(o.screenId, o.original, e.consumer, e.forcedScale));
 				}
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				System.out.println("Failed to create " + o.screenId + " UI:");
 				ex.printStackTrace();
 			}
@@ -41,19 +33,14 @@ public class KubeJSUIEventHandler
 
 		String id = UIData.INSTANCE.getScreenId(screen.getClass());
 
-		if (!id.isEmpty())
-		{
-			try
-			{
+		if (!id.isEmpty()) {
+			try {
 				UIEventJS e = new UIEventJS();
 
-				if (e.post(ScriptType.CLIENT, "ui." + id) && e.consumer != null)
-				{
+				if (e.post(ScriptType.CLIENT, "ui." + id) && e.consumer != null) {
 					return success(new ScreenKubeJSUI(id, screen, e.consumer, e.forcedScale));
 				}
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				System.out.println("Failed to create " + id + " UI:");
 				ex.printStackTrace();
 			}

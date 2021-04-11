@@ -14,15 +14,13 @@ import org.lwjgl.opengl.GL11;
 /**
  * @author LatvianModder
  */
-public class Image extends Widget
-{
+public class Image extends Widget {
 	private ResourceLocation texture;
 	private ResourceLocation hoverTexture;
 	private int[] uv;
 	private int tileSize;
 
-	public Image()
-	{
+	public Image() {
 		setWidth(64);
 		setHeight(64);
 		setTexture("minecraft:textures/gui/presets/isles.png");
@@ -30,30 +28,25 @@ public class Image extends Widget
 		tileSize = 0;
 	}
 
-	public void setTexture(String tex)
-	{
+	public void setTexture(String tex) {
 		texture = UtilsJS.getMCID(tex);
 		hoverTexture = texture;
 	}
 
-	public void setHoverTexture(String tex)
-	{
+	public void setHoverTexture(String tex) {
 		hoverTexture = UtilsJS.getMCID(tex);
 	}
 
-	public void setUv(int[] ai)
-	{
+	public void setUv(int[] ai) {
 		uv = ai;
 	}
 
-	public void setTileSize(int s)
-	{
+	public void setTileSize(int s) {
 		tileSize = s;
 	}
 
 	@Override
-	public void renderBackground(PoseStack matrixStack, float partialTicks)
-	{
+	public void renderBackground(PoseStack matrixStack, float partialTicks) {
 		RenderSystem.color4f(255, 255, 255, 255);
 		RenderSystem.enableTexture();
 		RenderSystem.enableBlend();
@@ -77,20 +70,16 @@ public class Image extends Widget
 		Matrix4f m = matrixStack.last().pose();
 		builder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
 
-		if (tileSize != 0)
-		{
+		if (tileSize != 0) {
 			float s = tileSize < 0 ? -tileSize : (float) (tileSize / Minecraft.getInstance().getWindow().getGuiScale());
 			builder.vertex(m, 0F, 1F, 0F).color(cr, cg, cb, ca).uv(0F, h / s).endVertex();
 			builder.vertex(m, 1F, 1F, 0F).color(cr, cg, cb, ca).uv(w / s, h / s).endVertex();
 			builder.vertex(m, 1F, 0F, 0F).color(cr, cg, cb, ca).uv(w / s, 0F).endVertex();
 			builder.vertex(m, 0F, 0F, 0F).color(cr, cg, cb, ca).uv(0F, 0F).endVertex();
-		}
-		else
-		{
+		} else {
 			int[] uv1 = {0, 0, 256, 256, 256, 256};
 
-			if (uv != null)
-			{
+			if (uv != null) {
 				System.arraycopy(uv, 0, uv1, 0, Math.min(uv.length, 6));
 			}
 

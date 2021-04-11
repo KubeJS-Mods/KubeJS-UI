@@ -15,10 +15,8 @@ import java.util.function.Consumer;
 /**
  * @author LatvianModder
  */
-public interface VanillaActions
-{
-	static Minecraft mc()
-	{
+public interface VanillaActions {
+	static Minecraft mc() {
 		return Minecraft.getInstance();
 	}
 
@@ -29,6 +27,8 @@ public interface VanillaActions
 	Consumer<Screen> OPTIONS = screen -> mc().setScreen(new OptionsScreen(screen, mc().options));
 	Consumer<Screen> QUIT = screen -> mc().stop();
 	Consumer<Screen> ACCESSIBILITY = screen -> mc().setScreen(new AccessibilityOptionsScreen(screen, mc().options));
+
+	Consumer<Screen> EXAMPLE = screen -> mc().setScreen(new AccessibilityOptionsScreen(screen, mc().options));
 
 	Consumer<Screen> KUBEJSUI_TOGGLE_SHADERS = screen -> {
 		KubeJSUIOptions.getInstance().useShaders = !KubeJSUIOptions.getInstance().useShaders;

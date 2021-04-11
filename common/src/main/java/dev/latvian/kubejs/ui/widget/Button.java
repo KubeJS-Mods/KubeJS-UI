@@ -9,12 +9,10 @@ import net.minecraft.util.FormattedCharSequence;
 /**
  * @author LatvianModder
  */
-public class Button extends Widget
-{
+public class Button extends Widget {
 	public boolean shadow;
 
-	public Button()
-	{
+	public Button() {
 		z = 10;
 		setWidth(200);
 		setHeight(20);
@@ -22,15 +20,13 @@ public class Button extends Widget
 	}
 
 	@Override
-	public void setName(Object o)
-	{
+	public void setName(Object o) {
 		super.setName(o);
 		setWidth(getUi().screen.getUiFont().width(cachedComponent) + 10);
 	}
 
 	@Override
-	public void renderBackground(PoseStack matrixStack, float partialTicks)
-	{
+	public void renderBackground(PoseStack matrixStack, float partialTicks) {
 		Minecraft minecraft = Minecraft.getInstance();
 		Font fontrenderer = getUi().screen.getUiFont();
 		minecraft.getTextureManager().bind(getUi().getWidgetTexture());
@@ -38,18 +34,13 @@ public class Button extends Widget
 		int i;
 		int j;
 
-		if (!enabled || getAction() == null)
-		{
+		if (!enabled || getAction() == null) {
 			i = 0;
 			j = 0xCCCCCC;
-		}
-		else if (isMouseOver)
-		{
+		} else if (isMouseOver) {
 			i = 2;
 			j = hoverColor;
-		}
-		else
-		{
+		} else {
 			i = 1;
 			j = color;
 		}
@@ -66,12 +57,9 @@ public class Button extends Widget
 		blit(matrixStack, w / 2, 0, 200 - w / 2, 46 + i * 20, w / 2, h);
 		RenderSystem.color4f(255, 255, 255, 255);
 
-		if (shadow)
-		{
+		if (shadow) {
 			drawCenteredString(matrixStack, fontrenderer, cachedComponent, w / 2, (h - 8) / 2, j | (alpha << 24));
-		}
-		else
-		{
+		} else {
 			RenderSystem.enableAlphaTest();
 			FormattedCharSequence ireorderingprocessor = cachedComponent.getVisualOrderText();
 			fontrenderer.draw(matrixStack, ireorderingprocessor, (w - fontrenderer.width(ireorderingprocessor)) / 2F, (h - 8) / 2F, j | (alpha << 24));

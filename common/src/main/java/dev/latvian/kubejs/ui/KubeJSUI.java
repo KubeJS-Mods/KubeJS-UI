@@ -6,45 +6,42 @@ import me.shedaniel.architectury.registry.ReloadListeners;
 import me.shedaniel.architectury.utils.Env;
 import me.shedaniel.architectury.utils.EnvExecutor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 
 /**
  * @author LatvianModder
  */
-public class KubeJSUI
-{
+public class KubeJSUI {
 	public static final String MOD_ID = "kubejs_ui";
 	static ThreadLocal<Boolean> withinInitPreHacks = ThreadLocal.withInitial(() -> false);
 
-	private KubeJSUI()
-	{
+	private KubeJSUI() {
 	}
 
-	public static void init()
-	{
+	public static void init() {
 		EnvExecutor.runInEnv(Env.CLIENT, () -> () -> {
 			GuiEvent.SET_SCREEN.register(KubeJSUIEventHandler::openGui);
-			if (!Platform.isForge())
-			{
+			if (!Platform.isForge()) {
 				GuiEvent.INIT_PRE.register((screen, widgets, children) -> {
-					if (withinInitPreHacks.get()) return InteractionResult.PASS;
-					if (Minecraft.getInstance().screen != screen) return InteractionResult.PASS;
-					if (screen instanceof ScreenKubeJSUI) return InteractionResult.PASS;
+					if (withinInitPreHacks.get()) {
+						return InteractionResult.PASS;
+					}
+					if (Minecraft.getInstance().screen != screen) {
+						return InteractionResult.PASS;
+					}
+					if (screen instanceof ScreenKubeJSUI) {
+						return InteractionResult.PASS;
+					}
 
 					String screenId = UIData.INSTANCE.getScreenId(screen.getClass());
 
-					if (!screenId.isEmpty())
-					{
+					if (!screenId.isEmpty()) {
 						// Re-open the screen
 						withinInitPreHacks.set(true);
-						try
-						{
+						try {
 							Minecraft.getInstance().setScreen(screen);
-						} finally
-						{
+						} finally {
 							withinInitPreHacks.set(false);
 						}
 						return InteractionResult.SUCCESS;

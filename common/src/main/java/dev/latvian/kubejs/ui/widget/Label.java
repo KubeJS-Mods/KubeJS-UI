@@ -9,13 +9,11 @@ import net.minecraft.network.chat.TextComponent;
 /**
  * @author LatvianModder
  */
-public class Label extends Widget
-{
+public class Label extends Widget {
 	private Component cachedComponentUnderlined;
 	public boolean shadow;
 
-	public Label()
-	{
+	public Label() {
 		z = 20;
 		setWidth(1);
 		setHeight(10);
@@ -23,16 +21,14 @@ public class Label extends Widget
 	}
 
 	@Override
-	public void setName(Object o)
-	{
+	public void setName(Object o) {
 		super.setName(o);
 		cachedComponentUnderlined = new TextComponent("").append(cachedComponent).withStyle(ChatFormatting.UNDERLINE);
 		setWidth((int) (getUi().screen.getUiFont().width(cachedComponent) * (getHeight() / 10F)));
 	}
 
 	@Override
-	public void renderForeground(PoseStack matrixStack, float partialTicks)
-	{
+	public void renderForeground(PoseStack matrixStack, float partialTicks) {
 		RenderSystem.color4f(255, 255, 255, 255);
 		matrixStack.pushPose();
 		matrixStack.translate(actualX, actualY, z);
@@ -43,12 +39,9 @@ public class Label extends Widget
 		Component c = (isMouseOver && getAction() != null) ? cachedComponentUnderlined : cachedComponent;
 		int col = (isMouseOver ? hoverColor : color) | (alpha << 24);
 
-		if (shadow)
-		{
+		if (shadow) {
 			getUi().screen.getUiFont().drawShadow(matrixStack, c, 0, 0, col);
-		}
-		else
-		{
+		} else {
 			getUi().screen.getUiFont().draw(matrixStack, c, 0, 0, col);
 		}
 

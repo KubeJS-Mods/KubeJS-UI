@@ -1,17 +1,8 @@
 {
 	"screens": {
-		"net.minecraft.client.gui.screens.TitleScreen": "main_menu",
-		"net.minecraft.client.gui.screen.TitleScreen": "main_menu",
-		"net.minecraft.class_442": "main_menu",
-		"net.minecraft.client.gui.screen.MainMenuScreen": "main_menu"
+		"some.example.package.ExampleScreen": "example_id"
 	},
 	"actions": {
-		"singleplayer": "dev.latvian.kubejs.ui.VanillaActions.SINGLEPLAYER",
-		"multiplayer": "dev.latvian.kubejs.ui.VanillaActions.MULTIPLAYER",
-		"realms": "dev.latvian.kubejs.ui.VanillaActions.REALMS",
-		"language": "dev.latvian.kubejs.ui.VanillaActions.LANGUAGE",
-		"options": "dev.latvian.kubejs.ui.VanillaActions.OPTIONS",
-		"quit": "dev.latvian.kubejs.ui.VanillaActions.QUIT",
-		"accessibility": "dev.latvian.kubejs.ui.VanillaActions.ACCESSIBILITY"
+		"example": "dev.latvian.kubejs.ui.VanillaActions.EXAMPLE"
 	}
 }

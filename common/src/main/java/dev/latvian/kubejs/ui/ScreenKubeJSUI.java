@@ -23,8 +23,7 @@ import java.util.function.Consumer;
 /**
  * @author LatvianModder
  */
-public final class ScreenKubeJSUI extends Screen
-{
+public final class ScreenKubeJSUI extends Screen {
 	public final String screenId;
 	public final Screen original;
 	public final Consumer<UI> consumer;
@@ -32,8 +31,7 @@ public final class ScreenKubeJSUI extends Screen
 	public final UI ui;
 	public final Map<ResourceLocation, Optional<EffectInstance>> shaders;
 
-	public ScreenKubeJSUI(String i, Screen o, Consumer<UI> c, int fs)
-	{
+	public ScreenKubeJSUI(String i, Screen o, Consumer<UI> c, int fs) {
 		super(o.getTitle());
 		screenId = i;
 		original = o;
@@ -44,54 +42,43 @@ public final class ScreenKubeJSUI extends Screen
 	}
 
 	@Override
-	public void init(Minecraft mc, int w, int h)
-	{
+	public void init(Minecraft mc, int w, int h) {
 		original.init(mc, w, h);
 		super.init(mc, w, h);
 	}
 
 	@Override
-	public void init()
-	{
+	public void init() {
 		ui.children.clear();
 		ui.allWidgets.clear();
 		consumer.accept(ui);
 		ui.collectWidgets(ui.allWidgets);
 
-		for (Widget w : ui.allWidgets)
-		{
+		for (Widget w : ui.allWidgets) {
 			w.actualX = w.getX();
 			w.actualY = w.getY();
 		}
 	}
 
-	public Font getUiFont()
-	{
+	public Font getUiFont() {
 		return font;
 	}
 
 	@Override
-	public boolean shouldCloseOnEsc()
-	{
+	public boolean shouldCloseOnEsc() {
 		return original.shouldCloseOnEsc();
 	}
 
 	@Override
-	public boolean isPauseScreen()
-	{
+	public boolean isPauseScreen() {
 		return original.isPauseScreen();
 	}
 
-	public void clearCaches()
-	{
-		for (Optional<EffectInstance> instance : shaders.values())
-		{
-			try
-			{
+	public void clearCaches() {
+		for (Optional<EffectInstance> instance : shaders.values()) {
+			try {
 				instance.ifPresent(EffectInstance::close);
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 			}
 		}
 
@@ -99,36 +86,28 @@ public final class ScreenKubeJSUI extends Screen
 	}
 
 	@Override
-	public void removed()
-	{
+	public void removed() {
 		clearCaches();
 		super.removed();
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
-	{
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		original.renderBackground(matrixStack);
 		ui.mouse.x = mouseX;
 		ui.mouse.y = mouseY;
 		ui.time = System.currentTimeMillis() - UI.startTime;
 
-		for (Widget w : ui.allWidgets)
-		{
+		for (Widget w : ui.allWidgets) {
 			boolean b = w.isMouseOver;
 			w.isMouseOver = mouseX >= w.actualX && mouseY >= w.actualY && mouseX < w.actualX + w.getWidth() && mouseY < w.actualY + w.getHeight();
 
-			if (b != w.isMouseOver)
-			{
-				if (w.isMouseOver)
-				{
-					if (w.mouseEnter != null)
-					{
+			if (b != w.isMouseOver) {
+				if (w.isMouseOver) {
+					if (w.mouseEnter != null) {
 						w.mouseEnter.run();
 					}
-				}
-				else if (w.mouseExit != null)
-				{
+				} else if (w.mouseExit != null) {
 					w.mouseExit.run();
 				}
 			}
@@ -141,18 +120,15 @@ public final class ScreenKubeJSUI extends Screen
 		List<Component> list = new ArrayList<>();
 		ui.appendHoverText(list);
 
-		if (!list.isEmpty())
-		{
+		if (!list.isEmpty()) {
 			renderComponentTooltip(matrixStack, list, mouseX, mouseY);
 			// GuiUtils.drawHoveringText(matrixStack, list, mouseX, mouseY, width, height, 180, font);
 		}
 	}
 
 	@Override
-	public boolean mouseClicked(double x, double y, int button)
-	{
-		if (ui.mousePressed())
-		{
+	public boolean mouseClicked(double x, double y, int button) {
+		if (ui.mousePressed()) {
 			return true;
 		}
 
@@ -160,26 +136,20 @@ public final class ScreenKubeJSUI extends Screen
 	}
 
 	@Override
-	public boolean mouseReleased(double x, double y, int button)
-	{
+	public boolean mouseReleased(double x, double y, int button) {
 		ui.mouseReleased();
 		return super.mouseReleased(x, y, button);
 	}
 
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
-	{
-		if (keyCode == GLFW.GLFW_KEY_F5)
-		{
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+		if (keyCode == GLFW.GLFW_KEY_F5) {
 			ui.tick = 0;
 
-			if ((modifiers & GLFW.GLFW_MOD_CONTROL) != 0)
-			{
+			if ((modifiers & GLFW.GLFW_MOD_CONTROL) != 0) {
 				KubeJSClient.reloadClientScripts();
 				minecraft.setScreen(this);
-			}
-			else
-			{
+			} else {
 				UI.startTime = System.currentTimeMillis();
 				ui.time = 0L;
 			}
@@ -190,21 +160,16 @@ public final class ScreenKubeJSUI extends Screen
 		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 
-	public Optional<EffectInstance> loadShader(ResourceLocation id)
-	{
+	public Optional<EffectInstance> loadShader(ResourceLocation id) {
 		Optional<EffectInstance> instance = shaders.get(id);
 
-		if (instance != null)
-		{
+		if (instance != null) {
 			return instance;
 		}
 
-		try
-		{
+		try {
 			instance = Optional.of(new EffectInstance(Minecraft.getInstance().getResourceManager(), id.toString()));
-		}
-		catch (Exception ex)
-		{
+		} catch (Exception ex) {
 			instance = Optional.empty();
 			KubeJS.LOGGER.error("Failed to load shader " + id + ":");
 			ex.printStackTrace();
@@ -215,14 +180,12 @@ public final class ScreenKubeJSUI extends Screen
 	}
 
 	@Override
-	public void tick()
-	{
+	public void tick() {
 		super.tick();
 		ui.tick++;
 	}
 
-	public Minecraft getMinecraft()
-	{
+	public Minecraft getMinecraft() {
 		return minecraft;
 	}
 }

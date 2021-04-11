@@ -14,8 +14,7 @@ import java.util.List;
 /**
  * @author LatvianModder
  */
-public class UI extends Panel
-{
+public class UI extends Panel {
 	public final ScreenKubeJSUI screen;
 	public final Mouse mouse;
 	public final List<Widget> allWidgets;
@@ -24,8 +23,7 @@ public class UI extends Panel
 	public long time;
 	public static long startTime;
 
-	public UI(ScreenKubeJSUI s)
-	{
+	public UI(ScreenKubeJSUI s) {
 		screen = s;
 		mouse = new Mouse();
 		allWidgets = new ArrayList<>();
@@ -35,8 +33,7 @@ public class UI extends Panel
 
 		long now = System.currentTimeMillis();
 
-		if (startTime == 0L)
-		{
+		if (startTime == 0L) {
 			startTime = now;
 		}
 
@@ -44,81 +41,63 @@ public class UI extends Panel
 	}
 
 	@Override
-	public UI getUi()
-	{
+	public UI getUi() {
 		return this;
 	}
 
 	@Override
-	public int getX()
-	{
+	public int getX() {
 		return 0;
 	}
 
 	@Override
-	public int getY()
-	{
+	public int getY() {
 		return 0;
 	}
 
 	@Override
-	public int getWidth()
-	{
+	public int getWidth() {
 		return screen.width;
 	}
 
 	@Override
-	public int getHeight()
-	{
+	public int getHeight() {
 		return screen.height;
 	}
 
-	public double getScale()
-	{
+	public double getScale() {
 		return screen.getMinecraft().getWindow().getGuiScale();
 	}
 
-	public ResourceLocation getWidgetTexture()
-	{
+	public ResourceLocation getWidgetTexture() {
 		return widgetTexture;
 	}
 
-	public void setWidgetTexture(ResourceLocation s)
-	{
+	public void setWidgetTexture(ResourceLocation s) {
 		widgetTexture = s;
 	}
 
-	public void setWidgetTexture(String s)
-	{
+	public void setWidgetTexture(String s) {
 		setWidgetTexture(new ResourceLocation(s));
 	}
 
 	// Utils //
 
-	public int textWidth(@Nullable Object o)
-	{
-		if (o == null)
-		{
+	public int textWidth(@Nullable Object o) {
+		if (o == null) {
 			return 0;
-		}
-		else if (o instanceof FormattedText)
-		{
+		} else if (o instanceof FormattedText) {
 			return screen.getUiFont().width((FormattedText) o);
-		}
-		else if (o instanceof FormattedCharSequence)
-		{
+		} else if (o instanceof FormattedCharSequence) {
 			return screen.getUiFont().width((FormattedCharSequence) o);
-		}
-		else if (o instanceof Text)
-		{
+		} else if (o instanceof Text) {
 			return screen.getUiFont().width(((Text) o).component());
 		}
 
 		return screen.getUiFont().width(o.toString());
 	}
 
-	public boolean getUseShaders()
-	{
+	public boolean getUseShaders() {
 		return KubeJSUIOptions.getInstance().useShaders;
 	}
 }

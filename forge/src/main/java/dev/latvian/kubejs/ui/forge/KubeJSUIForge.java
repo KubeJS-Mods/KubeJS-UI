@@ -4,10 +4,8 @@ import dev.latvian.kubejs.ui.KubeJSUI;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod(KubeJSUI.MOD_ID)
-public class KubeJSUIForge
-{
-	public KubeJSUIForge()
-	{
+public class KubeJSUIForge {
+	public KubeJSUIForge() {
 		KubeJSUI.init();
 	}
 }

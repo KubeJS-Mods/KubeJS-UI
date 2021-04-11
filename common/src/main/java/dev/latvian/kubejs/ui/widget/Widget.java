@@ -25,8 +25,7 @@ import java.util.function.Consumer;
 /**
  * @author LatvianModder
  */
-public class Widget extends GuiComponent
-{
+public class Widget extends GuiComponent {
 	public Panel parent;
 	private int x, y, width, height;
 	public int z;
@@ -45,8 +44,7 @@ public class Widget extends GuiComponent
 	public int actualX, actualY;
 	public boolean isMouseOver;
 
-	public Widget()
-	{
+	public Widget() {
 		x = 0;
 		y = 0;
 		width = 16;
@@ -68,132 +66,104 @@ public class Widget extends GuiComponent
 		isMouseOver = false;
 	}
 
-	public UI getUi()
-	{
+	public UI getUi() {
 		return parent.getUi();
 	}
 
-	public int getX()
-	{
+	public int getX() {
 		return x + parent.getX();
 	}
 
-	public void setX(int _x)
-	{
+	public void setX(int _x) {
 		x = _x;
 	}
 
-	public final void setX(double _x)
-	{
+	public final void setX(double _x) {
 		setX(Mth.floor(_x));
 	}
 
-	public int getY()
-	{
+	public int getY() {
 		return y + parent.getY();
 	}
 
-	public void setY(int _y)
-	{
+	public void setY(int _y) {
 		y = _y;
 	}
 
-	public final void setY(double _y)
-	{
+	public final void setY(double _y) {
 		setY(Mth.floor(_y));
 	}
 
-	public int getWidth()
-	{
+	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth(int w)
-	{
+	public void setWidth(int w) {
 		width = w;
 	}
 
-	public double getActualWidth()
-	{
+	public double getActualWidth() {
 		return getWidth() / getUi().getScale();
 	}
 
-	public int getHeight()
-	{
+	public int getHeight() {
 		return height;
 	}
 
-	public void setHeight(int h)
-	{
+	public void setHeight(int h) {
 		height = h;
 	}
 
-	public double getActualHeight()
-	{
+	public double getActualHeight() {
 		return getHeight() / getUi().getScale();
 	}
 
-	public Text getName()
-	{
+	public Text getName() {
 		return name;
 	}
 
-	public void setName(Object o)
-	{
+	public void setName(Object o) {
 		name = Text.of(o);
 		cachedComponent = name.component();
 	}
 
 	@Nullable
-	public Consumer<Screen> getAction()
-	{
+	public Consumer<Screen> getAction() {
 		return action;
 	}
 
-	public void setAction(Consumer<Screen> r)
-	{
+	public void setAction(Consumer<Screen> r) {
 		action = r;
 	}
 
-	public void setAction(String id)
-	{
-		if (id.startsWith("http://") || id.startsWith("https://"))
-		{
+	public void setAction(String id) {
+		if (id.startsWith("http://") || id.startsWith("https://")) {
 			setAction(screen -> getUi().screen.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, id))));
-		}
-		else
-		{
+		} else {
 			setAction(UIData.get().getAction(id));
 		}
 	}
 
-	public void setClickSound(SoundEvent e)
-	{
+	public void setClickSound(SoundEvent e) {
 		clickSound = e;
 	}
 
-	public void setClickSound(String sound)
-	{
+	public void setClickSound(String sound) {
 		setClickSound(Registry.SOUND_EVENT.get(UtilsJS.getMCID(sound)));
 	}
 
-	public void collectWidgets(List<Widget> list)
-	{
+	public void collectWidgets(List<Widget> list) {
 		list.add(this);
 	}
 
-	public void renderBackground(PoseStack matrixStack, float partialTicks)
-	{
+	public void renderBackground(PoseStack matrixStack, float partialTicks) {
 	}
 
-	public void renderForeground(PoseStack matrixStack, float partialTicks)
-	{
+	public void renderForeground(PoseStack matrixStack, float partialTicks) {
 	}
 
-	public boolean mousePressed()
-	{
-		if (isMouseOver && getAction() != null)
-		{
+	public boolean mousePressed() {
+		if (isMouseOver && getAction() != null) {
 			Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(clickSound, 1F));
 			getAction().accept(getUi().screen);
 			return true;
@@ -202,29 +172,23 @@ public class Widget extends GuiComponent
 		return false;
 	}
 
-	public void mouseReleased()
-	{
+	public void mouseReleased() {
 	}
 
-	public void setHoverText(Object[] array)
-	{
+	public void setHoverText(Object[] array) {
 		hoverTextComponents = new ArrayList<>(array.length);
 
-		for (Object o : array)
-		{
+		for (Object o : array) {
 			hoverTextComponents.add(Text.of(o).component());
 		}
 	}
 
-	public void setHoverText(Object o)
-	{
-		setHoverText(new Object[] {o});
+	public void setHoverText(Object o) {
+		setHoverText(new Object[]{o});
 	}
 
-	public void appendHoverText(List<Component> list)
-	{
-		if (hoverTextComponents != null && isMouseOver)
-		{
+	public void appendHoverText(List<Component> list) {
+		if (hoverTextComponents != null && isMouseOver) {
 			list.addAll(hoverTextComponents);
 		}
 	}
