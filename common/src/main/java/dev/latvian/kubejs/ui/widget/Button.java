@@ -2,6 +2,7 @@ package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.latvian.kubejs.text.Text;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.util.FormattedCharSequence;
@@ -20,7 +21,7 @@ public class Button extends Widget {
 	}
 
 	@Override
-	public void setName(Object o) {
+	public void setName(Text o) {
 		super.setName(o);
 		setWidth(getUi().screen.getUiFont().width(cachedComponent) + 10);
 	}
@@ -29,7 +30,7 @@ public class Button extends Widget {
 	public void renderBackground(PoseStack matrixStack, float partialTicks) {
 		Minecraft minecraft = Minecraft.getInstance();
 		Font fontrenderer = getUi().screen.getUiFont();
-		minecraft.getTextureManager().bind(getUi().getWidgetTexture());
+		minecraft.getTextureManager().bind(getUi().widgetTexture);
 		RenderSystem.color4f(255, 255, 255, alpha);
 		int i;
 		int j;

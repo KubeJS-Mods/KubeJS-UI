@@ -6,7 +6,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.math.Matrix4f;
-import dev.latvian.kubejs.util.UtilsJS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -24,19 +23,19 @@ public class ImageButton extends Widget {
 		setHeight(20);
 	}
 
-	public void setTexture(String tex) {
-		texture = UtilsJS.getMCID(tex);
+	public void setTexture(ResourceLocation tex) {
+		texture = tex;
 		hoverTexture = texture;
 	}
 
-	public void setHoverTexture(String tex) {
-		hoverTexture = UtilsJS.getMCID(tex);
+	public void setHoverTexture(ResourceLocation tex) {
+		hoverTexture = tex;
 	}
 
 	@Override
 	public void renderBackground(PoseStack matrixStack, float partialTicks) {
 		Minecraft minecraft = Minecraft.getInstance();
-		minecraft.getTextureManager().bind(getUi().getWidgetTexture());
+		minecraft.getTextureManager().bind(getUi().widgetTexture);
 		RenderSystem.color4f(255, 255, 255, alpha);
 		int i;
 		int j;

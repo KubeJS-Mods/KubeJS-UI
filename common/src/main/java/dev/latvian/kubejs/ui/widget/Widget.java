@@ -125,8 +125,8 @@ public class Widget extends GuiComponent {
 		return name;
 	}
 
-	public void setName(Object o) {
-		name = Text.of(o);
+	public void setName(Text o) {
+		name = o;
 		cachedComponent = name.component();
 	}
 

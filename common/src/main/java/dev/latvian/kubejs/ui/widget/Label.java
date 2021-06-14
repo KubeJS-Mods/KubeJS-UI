@@ -2,6 +2,7 @@ package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.latvian.kubejs.text.Text;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -21,7 +22,7 @@ public class Label extends Widget {
 	}
 
 	@Override
-	public void setName(Object o) {
+	public void setName(Text o) {
 		super.setName(o);
 		cachedComponentUnderlined = new TextComponent("").append(cachedComponent).withStyle(ChatFormatting.UNDERLINE);
 		setWidth((int) (getUi().screen.getUiFont().width(cachedComponent) * (getHeight() / 10F)));

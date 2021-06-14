@@ -18,7 +18,7 @@ public class UI extends Panel {
 	public final ScreenKubeJSUI screen;
 	public final Mouse mouse;
 	public final List<Widget> allWidgets;
-	private ResourceLocation widgetTexture;
+	public ResourceLocation widgetTexture;
 	public int tick;
 	public long time;
 	public static long startTime;
@@ -28,7 +28,7 @@ public class UI extends Panel {
 		mouse = new Mouse();
 		allWidgets = new ArrayList<>();
 		widgetTexture = new ResourceLocation("minecraft:textures/gui/widgets.png");
-		setName(s.getTitle());
+		setName(Text.of(s.getTitle()));
 		tick = 0;
 
 		long now = System.currentTimeMillis();
@@ -67,18 +67,6 @@ public class UI extends Panel {
 
 	public double getScale() {
 		return screen.getMinecraft().getWindow().getGuiScale();
-	}
-
-	public ResourceLocation getWidgetTexture() {
-		return widgetTexture;
-	}
-
-	public void setWidgetTexture(ResourceLocation s) {
-		widgetTexture = s;
-	}
-
-	public void setWidgetTexture(String s) {
-		setWidgetTexture(new ResourceLocation(s));
 	}
 
 	// Utils //
