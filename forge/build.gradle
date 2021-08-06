@@ -1,6 +1,6 @@
 plugins {
 	id "com.github.johnrengelman.shadow" version "5.0.0"
-	id "com.matthewprenger.cursegradle"
+	id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
 def ENV = System.getenv()
@@ -15,11 +15,13 @@ architectury {
 }
 
 dependencies {
-	minecraft("com.mojang:minecraft:${rootProject.minecraft_version}")
-	mappings(minecraft.officialMojangMappings())
-	forge("net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}")
+	forge("net.minecraftforge:forge:${rootProject.architectury.minecraft}-${rootProject.forge_version}")
 
 	modApi("me.shedaniel:architectury-forge:${rootProject.architectury_version}")
+
+	modImplementation "curse.maven:jei-238222:${forge_jei_file}"
+	modImplementation "dev.latvian.mods:kubejs-forge:${rootProject.kubejs_version}"
+	modImplementation "dev.latvian.mods:rhino:${rootProject.rhino_version}"
 
 	implementation(project(path: ":common")) {
 		transitive = false
@@ -30,11 +32,6 @@ dependencies {
 	shadowCommon(project(path: ":common", configuration: "transformProductionForge")) {
 		transitive = false
 	}
-
-	modApi("curse.maven:kubejs-238086:${rootProject.forge_kjs_file}")
-	modApi("curse.maven:rhino-416294:${rootProject.rhino_file}")
-
-	modApi("curse.maven:jei-238222:${rootProject.forge_jei_file}")
 }
 
 processResources {
@@ -49,13 +46,14 @@ shadowJar {
 	exclude "fabric.mod.json"
 
 	configurations = [project.configurations.shadowCommon]
-	classifier "shadow"
+	classifier "dev-shadow"
 }
 
 remapJar {
-	dependsOn(shadowJar)
-	input.set(shadowJar.archivePath)
-	classifier "forge"
+	input.set shadowJar.archiveFile
+	dependsOn shadowJar
+	archiveBaseName.set "${rootProject.mod_name}-${project.name}"
+	archiveClassifier.set null
 }
 
 jar {
@@ -65,11 +63,13 @@ jar {
 				"Specification-Vendor"    : project.mod_author,
 				"Specification-Version"   : "1",
 				"Implementation-Title"    : project.name,
-				"Implementation-Version"  : project.version,
+				"Implementation-Version"  : version,
 				"Implementation-Vendor"   : project.mod_author,
 				"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
 		])
 	}
+
+	classifier "dev"
 }
 
 if (ENV.CURSEFORGE_KEY) {
@@ -77,14 +77,14 @@ if (ENV.CURSEFORGE_KEY) {
 		apiKey = ENV.CURSEFORGE_KEY
 		project {
 			id = project.curseforge_id_forge
-			releaseType = "release"
+			releaseType = project.curseforge_type
 			addGameVersion "Forge"
-			addGameVersion "1.16.4"
 			addGameVersion "1.16.5"
 			mainArtifact(remapJar.archivePath)
 			relations {
-				requiredDependency 'kubejs-forge'
 				requiredDependency 'architectury-forge'
+				optionalDependency 'kubejs-forge'
+				optionalDependency 'jei'
 			}
 			changelog = getGitChangelog
 			changelogType = 'markdown'
@@ -104,6 +104,16 @@ publishing {
 	}
 
 	repositories {
+		if (ENV.FTB_MAVEN_TOKEN) {
+			maven {
+				url "https://maven.ftb.dev/release"
+				credentials {
+					username = "latvian"
+					password = "${ENV.FTB_MAVEN_TOKEN}"
+				}
+			}
+		}
+
 		if (ENV.SAPS_TOKEN) {
 			maven {
 				url "https://maven.saps.dev/minecraft"

@@ -1,15 +1,10 @@
 dependencies {
-	minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-	mappings minecraft.officialMojangMappings()
-
-	modApi "me.shedaniel:architectury:${rootProject.architectury_version}"
-	compileOnly "com.google.code.findbugs:jsr305:3.+"
-	// We depend on fabric loader here to use the fabric @Environment annotations
-	// Do NOT use other classes from fabric loader
 	modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
-	// FIXME: DO NOT USE ANY FABRIC CLASSES FROM THIS...lat pls
-	modApi("curse.maven:kubejs-fabric-395864:${rootProject.fabric_kjs_file}")
+	modApi "me.shedaniel:architectury:${rootProject.architectury_version}"
+
+	modImplementation "dev.latvian.mods:kubejs-fabric:${rootProject.kubejs_version}"
+	modImplementation "dev.latvian.mods:rhino:${rootProject.rhino_version}"
 }
 
 def ENV = System.getenv()
@@ -21,7 +16,7 @@ architectury {
 publishing {
 	publications {
 		mavenCommon(MavenPublication) {
-			artifactId = rootProject.mod_name
+			artifactId = rootProject.archivesBaseName
 			artifact remapJar
 			artifact(sourcesJar) {
 				builtBy remapSourcesJar
@@ -30,6 +25,16 @@ publishing {
 	}
 
 	repositories {
+		if (ENV.FTB_MAVEN_TOKEN) {
+			maven {
+				url "https://maven.ftb.dev/release"
+				credentials {
+					username = "latvian"
+					password = "${ENV.FTB_MAVEN_TOKEN}"
+				}
+			}
+		}
+
 		if (ENV.SAPS_TOKEN) {
 			maven {
 				url "https://maven.saps.dev/minecraft"

@@ -7,9 +7,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.math.Matrix4f;
 import net.minecraft.client.renderer.EffectInstance;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nullable;
 
 /**
  * @author LatvianModder
