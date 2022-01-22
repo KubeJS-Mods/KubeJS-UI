@@ -1,7 +1,7 @@
 package dev.latvian.kubejs.ui.fabric;
 
 import com.google.gson.JsonElement;
-import me.shedaniel.architectury.platform.Platform;
+import dev.architectury.platform.Platform;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;

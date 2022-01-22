@@ -5,8 +5,10 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
 import net.minecraft.client.renderer.EffectInstance;
+import net.minecraft.client.renderer.GameRenderer;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 
@@ -42,20 +44,21 @@ public class Shader extends Widget {
 		int sw = ui.screen.getMinecraft().getWindow().getWidth();
 		int sh = ui.screen.getMinecraft().getWindow().getHeight();
 
-		RenderSystem.color4f(255, 255, 255, 255);
+		RenderSystem.setShader(GameRenderer::getPositionColorShader);
+		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderSystem.disableTexture();
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 
-		program.safeGetUniform("resolution").set(sw, sh);
-		program.safeGetUniform("time").set(ui.time / 1000F);
-		program.safeGetUniform("mouse").set(ui.mouse.x / (float) sw, (ui.mouse.y / (float) sh));
+		program.safeGetUniform("ScreenSize").set(sw, sh);
+		program.safeGetUniform("GameTime").set(RenderSystem.getShaderGameTime());
+		program.safeGetUniform("Mouse").set(ui.mouse.x / (float) sw, (ui.mouse.y / (float) sh));
 		program.apply();
 		RenderSystem.depthFunc(GL11.GL_ALWAYS);
 
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder builder = tessellator.getBuilder();
-		builder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION_COLOR);
+		builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 		matrixStack.pushPose();
 		matrixStack.translate(actualX - 1, actualY - 1, z);
 		Matrix4f m = matrixStack.last().pose();

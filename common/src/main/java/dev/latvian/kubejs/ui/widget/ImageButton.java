@@ -5,10 +5,10 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 /**
  * @author LatvianModder
@@ -34,9 +34,9 @@ public class ImageButton extends Widget {
 
 	@Override
 	public void renderBackground(PoseStack matrixStack, float partialTicks) {
-		Minecraft minecraft = Minecraft.getInstance();
-		minecraft.getTextureManager().bind(getUi().widgetTexture);
-		RenderSystem.color4f(255, 255, 255, alpha);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		RenderSystem.setShaderTexture(0, getUi().widgetTexture);
+		RenderSystem.setShaderColor(1F, 1F, 1F, alpha / 255F);
 		int i;
 		int j;
 
@@ -66,16 +66,17 @@ public class ImageButton extends Widget {
 		matrixStack.translate(actualX, actualY, z);
 		blit(matrixStack, 0, 0, 0, 46 + i * 20, w / 2, h);
 		blit(matrixStack, w / 2, 0, 200 - w / 2, 46 + i * 20, w / 2, h);
-		RenderSystem.color4f(255, 255, 255, 255);
+		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
 		RenderSystem.enableTexture();
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
-		Minecraft.getInstance().getTextureManager().bind(isMouseOver ? hoverTexture : texture);
+		RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
+		RenderSystem.setShaderTexture(0, isMouseOver ? hoverTexture : texture);
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder builder = tessellator.getBuilder();
 		Matrix4f m = matrixStack.last().pose();
-		builder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
+		builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
 		builder.vertex(m, 1F, h - 1F, 0F).color(cr, cg, cb, ca).uv(0F, 1F).endVertex();
 		builder.vertex(m, w - 1F, h - 1F, 0F).color(cr, cg, cb, ca).uv(1F, 1F).endVertex();
 		builder.vertex(m, w - 1F, 1F, 0F).color(cr, cg, cb, ca).uv(1F, 0F).endVertex();

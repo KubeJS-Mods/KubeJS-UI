@@ -1,7 +1,7 @@
 package dev.latvian.kubejs.ui;
 
-import dev.latvian.kubejs.event.EventJS;
 import dev.latvian.kubejs.ui.widget.UI;
+import dev.latvian.mods.kubejs.event.EventJS;
 
 import java.util.function.Consumer;
 

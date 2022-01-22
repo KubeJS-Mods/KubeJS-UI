@@ -1,7 +1,7 @@
 package dev.latvian.kubejs.ui.forge;
 
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraftforge.fml.client.gui.screen.ModListScreen;
+import net.minecraftforge.client.gui.ModListScreen;
 
 import java.util.function.Consumer;
 

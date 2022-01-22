@@ -1,19 +1,16 @@
 package dev.latvian.kubejs.ui;
 
-import dev.latvian.kubejs.script.ScriptType;
+import dev.architectury.event.CompoundEventResult;
+import dev.latvian.mods.kubejs.script.ScriptType;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.InteractionResultHolder;
-
-import static net.minecraft.world.InteractionResultHolder.pass;
-import static net.minecraft.world.InteractionResultHolder.success;
 
 /**
  * @author LatvianModder
  */
 public class KubeJSUIEventHandler {
-	public static InteractionResultHolder<Screen> openGui(Screen screen) {
+	public static CompoundEventResult<Screen> openGui(Screen screen) {
 		if (screen == null) {
-			return pass(screen);
+			return CompoundEventResult.pass();
 		} else if (screen instanceof ScreenKubeJSUI) {
 			ScreenKubeJSUI o = (ScreenKubeJSUI) screen;
 
@@ -21,14 +18,14 @@ public class KubeJSUIEventHandler {
 				UIEventJS e = new UIEventJS();
 
 				if (e.post(ScriptType.CLIENT, "ui." + o.screenId) && e.consumer != null) {
-					return success(new ScreenKubeJSUI(o.screenId, o.original, e.consumer, e.forcedScale));
+					return CompoundEventResult.interruptTrue(new ScreenKubeJSUI(o.screenId, o.original, e.consumer, e.forcedScale));
 				}
 			} catch (Exception ex) {
 				ScriptType.CLIENT.console.error("Failed to create " + o.screenId + " UI:");
 				ex.printStackTrace();
 			}
 
-			return pass(screen);
+			return CompoundEventResult.pass();
 		}
 
 		String id = UIData.INSTANCE.getScreenId(screen.getClass());
@@ -38,7 +35,7 @@ public class KubeJSUIEventHandler {
 				UIEventJS e = new UIEventJS();
 
 				if (e.post(ScriptType.CLIENT, "ui." + id) && e.consumer != null) {
-					return success(new ScreenKubeJSUI(id, screen, e.consumer, e.forcedScale));
+					return CompoundEventResult.interruptTrue(new ScreenKubeJSUI(id, screen, e.consumer, e.forcedScale));
 				}
 			} catch (Exception ex) {
 				ScriptType.CLIENT.console.error("Failed to create " + id + " UI:");
@@ -46,6 +43,6 @@ public class KubeJSUIEventHandler {
 			}
 		}
 
-		return pass(screen);
+		return CompoundEventResult.pass();
 	}
 }

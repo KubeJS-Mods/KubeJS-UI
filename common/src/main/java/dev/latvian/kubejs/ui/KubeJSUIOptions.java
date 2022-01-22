@@ -1,6 +1,6 @@
 package dev.latvian.kubejs.ui;
 
-import me.shedaniel.architectury.platform.Platform;
+import dev.architectury.platform.Platform;
 
 import java.io.PrintWriter;
 import java.nio.file.Files;

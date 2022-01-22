@@ -1,8 +1,8 @@
 package dev.latvian.kubejs.ui.widget;
 
-import dev.latvian.kubejs.text.Text;
 import dev.latvian.kubejs.ui.KubeJSUIOptions;
 import dev.latvian.kubejs.ui.ScreenKubeJSUI;
+import dev.latvian.mods.kubejs.text.Text;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;

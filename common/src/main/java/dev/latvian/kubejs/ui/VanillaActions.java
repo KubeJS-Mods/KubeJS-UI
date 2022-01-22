@@ -8,7 +8,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.gui.screens.multiplayer.SafetyScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
-import net.minecraft.realms.RealmsBridge;
 
 import java.util.function.Consumer;
 
@@ -22,7 +21,6 @@ public interface VanillaActions {
 
 	Consumer<Screen> SINGLEPLAYER = screen -> mc().setScreen(new SelectWorldScreen(screen));
 	Consumer<Screen> MULTIPLAYER = screen -> mc().setScreen(mc().options.skipMultiplayerWarning ? new JoinMultiplayerScreen(screen) : new SafetyScreen(screen));
-	Consumer<Screen> REALMS = screen -> new RealmsBridge().switchToRealms(screen);
 	Consumer<Screen> LANGUAGE = screen -> mc().setScreen(new LanguageSelectScreen(screen, mc().options, mc().getLanguageManager()));
 	Consumer<Screen> OPTIONS = screen -> mc().setScreen(new OptionsScreen(screen, mc().options));
 	Consumer<Screen> QUIT = screen -> mc().stop();

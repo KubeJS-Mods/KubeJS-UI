@@ -1,11 +1,11 @@
 package dev.latvian.kubejs.ui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.latvian.kubejs.KubeJS;
-import dev.latvian.kubejs.client.KubeJSClient;
 import dev.latvian.kubejs.ui.widget.Panorama;
 import dev.latvian.kubejs.ui.widget.UI;
 import dev.latvian.kubejs.ui.widget.Widget;
+import dev.latvian.mods.kubejs.KubeJS;
+import dev.latvian.mods.kubejs.client.KubeJSClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
@@ -43,13 +43,9 @@ public final class ScreenKubeJSUI extends Screen {
 	}
 
 	@Override
-	public void init(Minecraft mc, int w, int h) {
-		original.init(mc, w, h);
-		super.init(mc, w, h);
-	}
-
-	@Override
 	public void init() {
+		original.init(minecraft, width, height);
+
 		ui.children.clear();
 		ui.allWidgets.clear();
 		consumer.accept(ui);

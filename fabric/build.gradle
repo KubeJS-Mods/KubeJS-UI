@@ -26,41 +26,13 @@ dependencies {
 	modImplementation("net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}")
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}")
 
-	/*
-	modApi "me.shedaniel:architectury-fabric:${rootProject.architectury_version}"
-
-	modImplementation "dev.latvian.mods:kubejs-fabric:${rootProject.kubejs_version}"
-	modImplementation "dev.latvian.mods:rhino:${rootProject.rhino_version}"
-
-	//modApi("com.terraformersmc:modmenu:${rootProject.fabric_mod_menu_version}")
-	modApi("curse.maven:modmenu-308702:${rootProject.fabric_mod_menu_file}")
-
-	modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.fabric_rei_version}") {
-		exclude group: "net.fabricmc.fabric-api"
-		exclude group: "net.fabricmc"
-	}
-
-	modRuntime("me.shedaniel:RoughlyEnoughItems:${rootProject.fabric_rei_version}") {
-		exclude group: "net.fabricmc.fabric-api"
-		exclude group: "net.fabricmc"
-	}
-
-	implementation(project(path: ":common")) {
-		transitive = false
-	}
-	developmentFabric(project(path: ":common")) {
-		transitive = false
-	}
-	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
-		transitive = false
-	}
-	 */
-
 	modImplementation "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
 
 	modImplementation "dev.latvian.mods:kubejs-fabric:${rootProject.kubejs_version}"
 	modImplementation "dev.latvian.mods:rhino-fabric:${rootProject.rhino_version}"
+
+	modApi("curse.maven:modmenu-308702:${rootProject.fabric_mod_menu_file}")
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

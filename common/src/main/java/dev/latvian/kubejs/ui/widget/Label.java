@@ -2,7 +2,7 @@ package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.latvian.kubejs.text.Text;
+import dev.latvian.mods.kubejs.text.Text;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -30,7 +30,7 @@ public class Label extends Widget {
 
 	@Override
 	public void renderForeground(PoseStack matrixStack, float partialTicks) {
-		RenderSystem.color4f(255, 255, 255, 255);
+		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		matrixStack.pushPose();
 		matrixStack.translate(actualX, actualY, z);
 

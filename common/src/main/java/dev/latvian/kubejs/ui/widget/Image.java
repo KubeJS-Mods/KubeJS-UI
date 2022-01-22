@@ -5,11 +5,12 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
-import dev.latvian.kubejs.util.UtilsJS;
+import dev.latvian.mods.kubejs.util.UtilsJS;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 /**
  * @author LatvianModder
@@ -47,11 +48,12 @@ public class Image extends Widget {
 
 	@Override
 	public void renderBackground(PoseStack matrixStack, float partialTicks) {
-		RenderSystem.color4f(255, 255, 255, 255);
+		RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
+		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderSystem.enableTexture();
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
-		Minecraft.getInstance().getTextureManager().bind(isMouseOver ? hoverTexture : texture);
+		RenderSystem.setShaderTexture(0, isMouseOver ? hoverTexture : texture);
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder builder = tessellator.getBuilder();
 
@@ -68,7 +70,7 @@ public class Image extends Widget {
 		matrixStack.translate(actualX, actualY, z);
 		matrixStack.scale(w, h, 1F);
 		Matrix4f m = matrixStack.last().pose();
-		builder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
+		builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
 
 		if (tileSize != 0) {
 			float s = tileSize < 0 ? -tileSize : (float) (tileSize / Minecraft.getInstance().getWindow().getGuiScale());

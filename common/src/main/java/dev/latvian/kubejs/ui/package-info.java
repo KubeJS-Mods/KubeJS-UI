@@ -1,2 +1,2 @@
-@dev.latvian.kubejs.NonnullByDefault
+@dev.latvian.mods.kubejs.NonnullByDefault
 package dev.latvian.kubejs.ui;

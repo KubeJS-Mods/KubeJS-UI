@@ -1,13 +1,13 @@
 package dev.latvian.kubejs.ui;
 
-import me.shedaniel.architectury.event.events.GuiEvent;
-import me.shedaniel.architectury.platform.Platform;
-import me.shedaniel.architectury.registry.ReloadListeners;
-import me.shedaniel.architectury.utils.Env;
-import me.shedaniel.architectury.utils.EnvExecutor;
+import dev.architectury.event.EventResult;
+import dev.architectury.event.events.client.ClientGuiEvent;
+import dev.architectury.platform.Platform;
+import dev.architectury.registry.ReloadListenerRegistry;
+import dev.architectury.utils.Env;
+import dev.architectury.utils.EnvExecutor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.world.InteractionResult;
 
 /**
  * @author LatvianModder
@@ -21,17 +21,18 @@ public class KubeJSUI {
 
 	public static void init() {
 		EnvExecutor.runInEnv(Env.CLIENT, () -> () -> {
-			GuiEvent.SET_SCREEN.register(KubeJSUIEventHandler::openGui);
+			ClientGuiEvent.SET_SCREEN.register(KubeJSUIEventHandler::openGui);
+
 			if (!Platform.isForge()) {
-				GuiEvent.INIT_PRE.register((screen, widgets, children) -> {
+				ClientGuiEvent.INIT_PRE.register((screen, access) -> {
 					if (withinInitPreHacks.get()) {
-						return InteractionResult.PASS;
+						return EventResult.pass();
 					}
 					if (Minecraft.getInstance().screen != screen) {
-						return InteractionResult.PASS;
+						return EventResult.pass();
 					}
 					if (screen instanceof ScreenKubeJSUI) {
-						return InteractionResult.PASS;
+						return EventResult.pass();
 					}
 
 					String screenId = UIData.INSTANCE.getScreenId(screen.getClass());
@@ -44,13 +45,14 @@ public class KubeJSUI {
 						} finally {
 							withinInitPreHacks.set(false);
 						}
-						return InteractionResult.SUCCESS;
+						return EventResult.interruptTrue();
 					}
 
-					return InteractionResult.PASS;
+					return EventResult.pass();
 				});
 			}
-			ReloadListeners.registerReloadListener(PackType.CLIENT_RESOURCES, UIData.INSTANCE);
+
+			ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, UIData.INSTANCE);
 		});
 	}
 }

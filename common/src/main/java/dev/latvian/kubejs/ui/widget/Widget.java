@@ -1,12 +1,12 @@
 package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.latvian.kubejs.script.ScriptType;
-import dev.latvian.kubejs.text.Text;
 import dev.latvian.kubejs.ui.ScreenKubeJSUI;
 import dev.latvian.kubejs.ui.UIData;
 import dev.latvian.kubejs.ui.UIEventJS;
-import dev.latvian.kubejs.util.UtilsJS;
+import dev.latvian.mods.kubejs.script.ScriptType;
+import dev.latvian.mods.kubejs.text.Text;
+import dev.latvian.mods.kubejs.util.UtilsJS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;

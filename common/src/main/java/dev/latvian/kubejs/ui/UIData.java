@@ -4,12 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dev.latvian.kubejs.KubeJS;
-import dev.latvian.kubejs.util.UtilsJS;
-import me.shedaniel.architectury.annotations.ExpectPlatform;
-import me.shedaniel.architectury.event.Event;
-import me.shedaniel.architectury.event.EventFactory;
-import me.shedaniel.architectury.platform.Platform;
+import dev.architectury.event.Event;
+import dev.architectury.event.EventFactory;
+import dev.architectury.injectables.annotations.ExpectPlatform;
+import dev.architectury.platform.Platform;
+import dev.latvian.mods.kubejs.KubeJS;
+import dev.latvian.mods.kubejs.util.UtilsJS;
 import net.minecraft.client.gui.screens.AccessibilityOptionsScreen;
 import net.minecraft.client.gui.screens.LanguageSelectScreen;
 import net.minecraft.client.gui.screens.OptionsScreen;
@@ -17,7 +17,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.WinScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
-import net.minecraft.realms.RealmsBridge;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -39,8 +38,8 @@ import java.util.function.Consumer;
 public enum UIData implements ResourceManagerReloadListener {
 	INSTANCE;
 
-	Event<RegisterScreensEvent> REGISTER_SCREENS = EventFactory.createLoop();
-	Event<RegisterActionsEvent> REGISTER_ACTIONS = EventFactory.createLoop();
+	public static final Event<RegisterScreensEvent> REGISTER_SCREENS = EventFactory.createLoop();
+	public static final Event<RegisterActionsEvent> REGISTER_ACTIONS = EventFactory.createLoop();
 
 	private final Map<Class<?>, String> screenIds = new HashMap<>();
 	private final Map<ResourceLocation, Consumer<Screen>> actions = new HashMap<>();
@@ -51,7 +50,6 @@ public enum UIData implements ResourceManagerReloadListener {
 		actions.clear();
 
 		screenIds.put(TitleScreen.class, "main_menu");
-		screenIds.put(RealmsBridge.class, "realms");
 		screenIds.put(LanguageSelectScreen.class, "language");
 		screenIds.put(OptionsScreen.class, "options");
 		screenIds.put(AccessibilityOptionsScreen.class, "accessibility");
@@ -60,7 +58,6 @@ public enum UIData implements ResourceManagerReloadListener {
 
 		actions.put(new ResourceLocation("minecraft:singleplayer"), VanillaActions.SINGLEPLAYER);
 		actions.put(new ResourceLocation("minecraft:multiplayer"), VanillaActions.MULTIPLAYER);
-		actions.put(new ResourceLocation("minecraft:realms"), VanillaActions.REALMS);
 		actions.put(new ResourceLocation("minecraft:language"), VanillaActions.LANGUAGE);
 		actions.put(new ResourceLocation("minecraft:options"), VanillaActions.OPTIONS);
 		actions.put(new ResourceLocation("minecraft:quit"), VanillaActions.QUIT);
