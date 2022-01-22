@@ -11,4 +11,4 @@ include("common")
 include("fabric")
 include("forge")
 
-rootProject.name = 'KubeJS-UI-1.16.4'
+rootProject.name = 'KubeJS-UI-1.18.1'

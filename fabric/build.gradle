@@ -1,6 +1,6 @@
 plugins {
-	id "com.github.johnrengelman.shadow" version "5.0.0"
-	id "com.matthewprenger.cursegradle" version "1.4.0"
+	id "com.github.johnrengelman.shadow" version "7.1.0"
+	id "com.matthewprenger.cursegradle"
 }
 
 def ENV = System.getenv()
@@ -14,10 +14,19 @@ architectury {
 	fabric()
 }
 
+configurations {
+	common
+	shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+	compileClasspath.extendsFrom common
+	runtimeClasspath.extendsFrom common
+	developmentFabric.extendsFrom common
+}
+
 dependencies {
 	modImplementation("net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}")
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}")
 
+	/*
 	modApi "me.shedaniel:architectury-fabric:${rootProject.architectury_version}"
 
 	modImplementation "dev.latvian.mods:kubejs-fabric:${rootProject.kubejs_version}"
@@ -45,6 +54,16 @@ dependencies {
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
 		transitive = false
 	}
+	 */
+
+	modImplementation "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
+
+	modImplementation "dev.latvian.mods:kubejs-fabric:${rootProject.kubejs_version}"
+	modImplementation "dev.latvian.mods:rhino-fabric:${rootProject.rhino_version}"
+
+	common(project(path: ":common", configuration: "namedElements")) { transitive false }
+	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
 
 processResources {
@@ -71,6 +90,12 @@ jar {
 	classifier "dev"
 }
 
+components.java {
+	withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+		skip()
+	}
+}
+
 if (ENV.CURSEFORGE_KEY) {
 	curseforge {
 		apiKey = ENV.CURSEFORGE_KEY
@@ -78,12 +103,12 @@ if (ENV.CURSEFORGE_KEY) {
 			id = project.curseforge_id_fabric
 			releaseType = project.curseforge_type
 			addGameVersion "Fabric"
-			addGameVersion "1.16.5"
+			addGameVersion "1.18.1"
 			mainArtifact(remapJar.archivePath)
 			relations {
 				requiredDependency 'architectury-fabric'
 				requiredDependency 'fabric-api'
-				optionalDependency 'kubejs-fabric'
+				requiredDependency 'kubejs-fabric'
 			}
 			changelog = getGitChangelog
 			changelogType = 'markdown'
@@ -95,10 +120,7 @@ publishing {
 	publications {
 		mavenFabric(MavenPublication) {
 			artifactId = "${rootProject.mod_name}-${project.name}"
-			artifact(remapJar)
-			artifact(sourcesJar) {
-				builtBy remapSourcesJar
-			}
+			from components.java
 		}
 	}
 
