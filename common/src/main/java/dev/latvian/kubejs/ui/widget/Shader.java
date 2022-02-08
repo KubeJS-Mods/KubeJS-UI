@@ -7,31 +7,21 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
-import net.minecraft.client.renderer.EffectInstance;
-import net.minecraft.client.renderer.GameRenderer;
-import org.jetbrains.annotations.Nullable;
+import dev.latvian.kubejs.ui.KubeJSUIClient;
+import net.minecraft.client.renderer.ShaderInstance;
 import org.lwjgl.opengl.GL11;
 
 /**
  * @author LatvianModder
  */
 public class Shader extends Widget {
-	public final EffectInstance program;
-	public final float scale;
-
-	public Shader(@Nullable EffectInstance s, float sc) {
-		program = s;
-		scale = Math.max(sc, 1F);
+	public Shader() {
 		setWidth(64);
 		setHeight(64);
 	}
 
 	@Override
 	public void renderBackground(PoseStack matrixStack, float partialTicks) {
-		if (program == null) {
-			return;
-		}
-
 		int w = getWidth();
 		int h = getHeight();
 
@@ -39,38 +29,57 @@ public class Shader extends Widget {
 			return;
 		}
 
-		UI ui = getUi();
+		ShaderInstance shaderInstance = KubeJSUIClient.getShader();
 
+		if (shaderInstance == null) {
+			return;
+		}
+
+		UI ui = getUi();
 		int sw = ui.screen.getMinecraft().getWindow().getWidth();
 		int sh = ui.screen.getMinecraft().getWindow().getHeight();
+		double scale = ui.getScale();
 
-		RenderSystem.setShader(GameRenderer::getPositionColorShader);
+		RenderSystem.setShader(KubeJSUIClient::getShader);
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderSystem.disableTexture();
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 
-		program.safeGetUniform("ScreenSize").set(sw, sh);
-		program.safeGetUniform("GameTime").set(RenderSystem.getShaderGameTime());
-		program.safeGetUniform("Mouse").set(ui.mouse.x / (float) sw, (ui.mouse.y / (float) sh));
-		program.apply();
+		if (KubeJSUIClient.RESOLUTION_UNIFORM != null) {
+			KubeJSUIClient.RESOLUTION_UNIFORM.set((float) sw, (float) sh);
+		}
+
+		if (KubeJSUIClient.TIME_UNIFORM != null) {
+			KubeJSUIClient.TIME_UNIFORM.set((float) (ui.time / 1000D));
+		}
+
+		if (KubeJSUIClient.TICK_UNIFORM != null) {
+			KubeJSUIClient.TICK_UNIFORM.set(ui.tick - 1F + partialTicks);
+		}
+
+		if (KubeJSUIClient.MOUSE_UNIFORM != null) {
+			KubeJSUIClient.MOUSE_UNIFORM.set((float) (ui.mouse.x * scale / (double) sw), (float) ((h - ui.mouse.y) * scale / (double) sh));
+		}
+
+		if (KubeJSUIClient.GUI_SCALE_UNIFORM != null) {
+			KubeJSUIClient.GUI_SCALE_UNIFORM.set((float) scale);
+		}
+
 		RenderSystem.depthFunc(GL11.GL_ALWAYS);
 
-		Tesselator tessellator = Tesselator.getInstance();
-		BufferBuilder builder = tessellator.getBuilder();
-		builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-		matrixStack.pushPose();
-		matrixStack.translate(actualX - 1, actualY - 1, z);
+		Tesselator t = Tesselator.getInstance();
+		BufferBuilder builder = t.getBuilder();
 		Matrix4f m = matrixStack.last().pose();
-		builder.vertex(m, 0F, 0F, 0F).color(255, 255, 255, 100).endVertex();
-		builder.vertex(m, w, 0F, 0F).color(255, 255, 255, 100).endVertex();
-		builder.vertex(m, w, h, 0F).color(255, 255, 255, 100).endVertex();
-		builder.vertex(m, 0F, h, 0F).color(255, 255, 255, 100).endVertex();
-		tessellator.end();
-		matrixStack.popPose();
+		builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
+		builder.vertex(m, actualX, actualY + h, z).endVertex();
+		builder.vertex(m, actualX + w, actualY + h, z).endVertex();
+		builder.vertex(m, actualX + w, actualY, z).endVertex();
+		builder.vertex(m, actualX, actualY, z).endVertex();
+		t.end();
 
 		RenderSystem.depthFunc(GL11.GL_LEQUAL);
-		program.clear();
+		// program.clear();
 
 		RenderSystem.enableTexture();
 	}

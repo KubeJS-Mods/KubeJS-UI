@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.latvian.kubejs.ui.widget.Panorama;
 import dev.latvian.kubejs.ui.widget.UI;
 import dev.latvian.kubejs.ui.widget.Widget;
-import dev.latvian.mods.kubejs.KubeJS;
 import dev.latvian.mods.kubejs.client.KubeJSClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -156,25 +155,6 @@ public final class ScreenKubeJSUI extends Screen {
 		}
 
 		return super.keyPressed(keyCode, scanCode, modifiers);
-	}
-
-	public Optional<EffectInstance> loadShader(ResourceLocation id) {
-		Optional<EffectInstance> instance = shaders.get(id);
-
-		if (instance != null) {
-			return instance;
-		}
-
-		try {
-			instance = Optional.of(new EffectInstance(Minecraft.getInstance().getResourceManager(), id.toString()));
-		} catch (Exception ex) {
-			instance = Optional.empty();
-			KubeJS.LOGGER.error("Failed to load shader " + id + ":");
-			ex.printStackTrace();
-		}
-
-		shaders.put(id, instance);
-		return instance;
 	}
 
 	@Override

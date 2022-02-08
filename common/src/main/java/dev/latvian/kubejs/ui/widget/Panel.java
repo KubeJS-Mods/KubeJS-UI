@@ -2,6 +2,7 @@ package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.latvian.kubejs.ui.KubeJSUIOptions;
+import dev.latvian.mods.kubejs.util.ConsoleJS;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -93,9 +94,9 @@ public class Panel extends Widget {
 		});
 	}
 
-	public void shaderBackground(String s, int scale) {
+	public void shaderBackground() {
 		if (KubeJSUIOptions.getInstance().useShaders) {
-			widget(() -> new Shader(getUi().screen.loadShader(new ResourceLocation(s)).orElse(null), scale), shader -> {
+			widget(Shader::new, shader -> {
 				shader.setX(0);
 				shader.setY(0);
 				shader.setWidth(getWidth());
@@ -104,8 +105,15 @@ public class Panel extends Widget {
 		}
 	}
 
-	public void shaderBackground(String s) {
-		shaderBackground(s, KubeJSUIOptions.getInstance().defaultShaderScale);
+	@Deprecated
+	public void shaderBackground(ResourceLocation id) {
+		ConsoleJS.CLIENT.warn("Shader background no longer takes id param! Use just shaderBackground() and make kubejs/assets/minecraft/shaders/core/kubejsui_background.fsh file!");
+		shaderBackground();
+	}
+
+	@Deprecated
+	public void shaderBackground(ResourceLocation id, int scale) {
+		shaderBackground(id);
 	}
 
 	public void minecraftLogo(int x, int y) {

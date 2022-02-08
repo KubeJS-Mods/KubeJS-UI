@@ -14,7 +14,6 @@ import java.util.Map;
 public class KubeJSUIOptions {
 	private static KubeJSUIOptions instance;
 	public boolean useShaders;
-	public int defaultShaderScale;
 
 	public static KubeJSUIOptions getInstance() {
 		if (instance == null) {
@@ -41,7 +40,6 @@ public class KubeJSUIOptions {
 			}
 
 			instance.useShaders = map.getOrDefault("useShaders", "true").equals("true");
-			instance.defaultShaderScale = Math.max(1, Integer.parseInt(map.getOrDefault("defaultShaderScale", "1")));
 
 			if (!loaded) {
 				instance.save();
@@ -56,7 +54,6 @@ public class KubeJSUIOptions {
 
 		try (PrintWriter printwriter = new PrintWriter(Files.newBufferedWriter(file))) {
 			printwriter.println("useShaders: " + useShaders);
-			printwriter.println("defaultShaderScale: " + defaultShaderScale);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
