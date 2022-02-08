@@ -16,8 +16,8 @@ public class Panorama extends Widget {
 
 	public Panorama(ResourceLocation cm) {
 		cubeMap = new CubeMap(cm);
-		setWidth(64);
-		setHeight(64);
+		setW(64);
+		setH(64);
 	}
 
 	@Override

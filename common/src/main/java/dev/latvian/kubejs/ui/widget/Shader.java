@@ -16,20 +16,20 @@ import org.lwjgl.opengl.GL11;
  */
 public class Shader extends Widget {
 	public Shader() {
-		setWidth(64);
-		setHeight(64);
+		setW(64);
+		setH(64);
 	}
 
 	@Override
 	public void renderBackground(PoseStack matrixStack, float partialTicks) {
-		int w = getWidth();
-		int h = getHeight();
+		int w = getW();
+		int h = getH();
 
 		if (w <= 0 || h <= 0) {
 			return;
 		}
 
-		ShaderInstance shaderInstance = KubeJSUIClient.getShader();
+		ShaderInstance shaderInstance = KubeJSUIClient.getBackgroundShader();
 
 		if (shaderInstance == null) {
 			return;
@@ -40,7 +40,7 @@ public class Shader extends Widget {
 		int sh = ui.screen.getMinecraft().getWindow().getHeight();
 		double scale = ui.getScale();
 
-		RenderSystem.setShader(KubeJSUIClient::getShader);
+		RenderSystem.setShader(KubeJSUIClient::getBackgroundShader);
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderSystem.disableTexture();
 		RenderSystem.enableBlend();

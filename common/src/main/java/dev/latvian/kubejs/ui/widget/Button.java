@@ -15,15 +15,15 @@ public class Button extends Widget {
 
 	public Button() {
 		z = 10;
-		setWidth(200);
-		setHeight(20);
+		setW(200);
+		setH(20);
 		shadow = true;
 	}
 
 	@Override
 	public void setName(Text o) {
 		super.setName(o);
-		setWidth(getUi().screen.getUiFont().width(cachedComponent) + 10);
+		setW(getUi().screen.getUiFont().width(cachedComponent) + 10);
 	}
 
 	@Override
@@ -46,8 +46,8 @@ public class Button extends Widget {
 			j = color;
 		}
 
-		int w = getWidth();
-		int h = getHeight();
+		int w = getW();
+		int h = getH();
 
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();

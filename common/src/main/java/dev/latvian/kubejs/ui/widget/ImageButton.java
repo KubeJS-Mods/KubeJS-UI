@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
+import dev.latvian.kubejs.ui.KubeJSUIClient;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 
@@ -19,8 +20,8 @@ public class ImageButton extends Widget {
 
 	public ImageButton() {
 		z = 10;
-		setWidth(20);
-		setHeight(20);
+		setW(20);
+		setH(20);
 	}
 
 	public void setTexture(ResourceLocation tex) {
@@ -56,8 +57,8 @@ public class ImageButton extends Widget {
 		int cb = (j >> 0) & 255;
 		int ca = alpha;
 
-		int w = getWidth();
-		int h = getHeight();
+		int w = getW();
+		int h = getH();
 
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
@@ -71,7 +72,7 @@ public class ImageButton extends Widget {
 		RenderSystem.enableTexture();
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
-		RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
+		RenderSystem.setShader(KubeJSUIClient::getPositionColorTexShader);
 		RenderSystem.setShaderTexture(0, isMouseOver ? hoverTexture : texture);
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder builder = tessellator.getBuilder();

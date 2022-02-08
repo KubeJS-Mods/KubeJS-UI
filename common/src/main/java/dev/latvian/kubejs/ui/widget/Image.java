@@ -7,9 +7,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
-import dev.latvian.mods.kubejs.util.UtilsJS;
+import dev.latvian.kubejs.ui.KubeJSUIClient;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -22,20 +21,20 @@ public class Image extends Widget {
 	private int tileSize;
 
 	public Image() {
-		setWidth(64);
-		setHeight(64);
-		setTexture("minecraft:textures/gui/presets/isles.png");
+		setW(64);
+		setH(64);
+		setTexture(new ResourceLocation("minecraft:textures/gui/presets/isles.png"));
 		uv = null;
 		tileSize = 0;
 	}
 
-	public void setTexture(String tex) {
-		texture = UtilsJS.getMCID(tex);
-		hoverTexture = texture;
+	public void setTexture(ResourceLocation tex) {
+		texture = tex;
+		hoverTexture = tex;
 	}
 
-	public void setHoverTexture(String tex) {
-		hoverTexture = UtilsJS.getMCID(tex);
+	public void setHoverTexture(ResourceLocation tex) {
+		hoverTexture = tex;
 	}
 
 	public void setUv(int[] ai) {
@@ -48,7 +47,7 @@ public class Image extends Widget {
 
 	@Override
 	public void renderBackground(PoseStack matrixStack, float partialTicks) {
-		RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
+		RenderSystem.setShader(KubeJSUIClient::getPositionColorTexShader);
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderSystem.enableTexture();
 		RenderSystem.enableBlend();
@@ -63,8 +62,8 @@ public class Image extends Widget {
 		int cb = (col >> 0) & 255;
 		int ca = alpha;
 
-		int w = getWidth();
-		int h = getHeight();
+		int w = getW();
+		int h = getH();
 
 		matrixStack.pushPose();
 		matrixStack.translate(actualX, actualY, z);

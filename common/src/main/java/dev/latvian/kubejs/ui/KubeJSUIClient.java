@@ -14,15 +14,20 @@ import net.minecraft.server.packs.resources.ResourceManager;
 
 public class KubeJSUIClient {
 	static ThreadLocal<Boolean> withinInitPreHacks = ThreadLocal.withInitial(() -> false);
-	private static ShaderInstance shaderInstance;
+	private static ShaderInstance backgroundShaderInstance;
+	private static ShaderInstance positionColorTexShaderInstance;
 	public static Uniform RESOLUTION_UNIFORM;
 	public static Uniform TIME_UNIFORM;
 	public static Uniform TICK_UNIFORM;
 	public static Uniform MOUSE_UNIFORM;
 	public static Uniform GUI_SCALE_UNIFORM;
 
-	public static ShaderInstance getShader() {
-		return shaderInstance;
+	public static ShaderInstance getBackgroundShader() {
+		return backgroundShaderInstance;
+	}
+
+	public static ShaderInstance getPositionColorTexShader() {
+		return positionColorTexShaderInstance;
 	}
 
 	public static void init() {
@@ -64,12 +69,20 @@ public class KubeJSUIClient {
 	private static void reloadShaders(ResourceManager manager, ClientReloadShadersEvent.ShadersSink sink) {
 		try {
 			sink.registerShader(new ShaderInstance(manager, "kubejsui_background", DefaultVertexFormat.POSITION), i -> {
-				shaderInstance = i;
+				backgroundShaderInstance = i;
 				RESOLUTION_UNIFORM = i.getUniform("resolution");
 				TIME_UNIFORM = i.getUniform("time");
 				TICK_UNIFORM = i.getUniform("tick");
 				MOUSE_UNIFORM = i.getUniform("mouse");
 				GUI_SCALE_UNIFORM = i.getUniform("guiScale");
+			});
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		try {
+			sink.registerShader(new ShaderInstance(manager, "kubejsui_position_color_tex", DefaultVertexFormat.POSITION_COLOR_TEX), i -> {
+				positionColorTexShaderInstance = i;
 			});
 		} catch (Exception ex) {
 			ex.printStackTrace();

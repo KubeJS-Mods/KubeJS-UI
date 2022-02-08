@@ -45,6 +45,7 @@ public final class ScreenKubeJSUI extends Screen {
 	public void init() {
 		original.init(minecraft, width, height);
 
+		ui.hasShader = false;
 		ui.children.clear();
 		ui.allWidgets.clear();
 		consumer.accept(ui);
@@ -96,7 +97,7 @@ public final class ScreenKubeJSUI extends Screen {
 
 		for (Widget w : ui.allWidgets) {
 			boolean b = w.isMouseOver;
-			w.isMouseOver = mouseX >= w.actualX && mouseY >= w.actualY && mouseX < w.actualX + w.getWidth() && mouseY < w.actualY + w.getHeight();
+			w.isMouseOver = mouseX >= w.actualX && mouseY >= w.actualY && mouseX < w.actualX + w.getW() && mouseY < w.actualY + w.getH();
 
 			if (b != w.isMouseOver) {
 				if (w.isMouseOver) {
@@ -144,6 +145,19 @@ public final class ScreenKubeJSUI extends Screen {
 
 			if ((modifiers & GLFW.GLFW_MOD_CONTROL) != 0) {
 				KubeJSClient.reloadClientScripts();
+
+				/*
+				try {
+					minecraft.getTextureManager().reload(CompletableFuture::completedFuture, minecraft.getResourceManager(), InactiveProfiler.INSTANCE, InactiveProfiler.INSTANCE, Util.backgroundExecutor(), minecraft).get();
+
+					if (ui.hasShader) {
+						minecraft.gameRenderer.reload(CompletableFuture::completedFuture, minecraft.getResourceManager(), InactiveProfiler.INSTANCE, InactiveProfiler.INSTANCE, Util.backgroundExecutor(), minecraft).get();
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				 */
+
 				minecraft.setScreen(this);
 			} else {
 				UI.startTime = System.currentTimeMillis();

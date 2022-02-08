@@ -4,10 +4,17 @@
 		"srcrgb": "srcalpha",
 		"dstrgb": "1-srcalpha"
 	},
-	"vertex": "position",
-	"fragment": "kubejsui_background",
+	"vertex": "position_color_tex",
+	"fragment": "kubejsui_position_color_tex",
 	"attributes": [
-		"Position"
+		"Position",
+		"Color",
+		"UV0"
+	],
+	"samplers": [
+		{
+			"name": "Sampler0"
+		}
 	],
 	"uniforms": [
 		{
@@ -57,44 +64,13 @@
 			]
 		},
 		{
-			"name": "resolution",
+			"name": "ColorModulator",
 			"type": "float",
-			"count": 2,
+			"count": 4,
 			"values": [
 				1.0,
-				1.0
-			]
-		},
-		{
-			"name": "time",
-			"type": "float",
-			"count": 1,
-			"values": [
-				0.0
-			]
-		},
-		{
-			"name": "tick",
-			"type": "float",
-			"count": 1,
-			"values": [
-				0.0
-			]
-		},
-		{
-			"name": "mouse",
-			"type": "float",
-			"count": 2,
-			"values": [
-				0.0,
-				0.0
-			]
-		},
-		{
-			"name": "guiScale",
-			"type": "float",
-			"count": 1,
-			"values": [
+				1.0,
+				1.0,
 				1.0
 			]
 		}

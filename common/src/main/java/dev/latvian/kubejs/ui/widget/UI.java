@@ -22,6 +22,7 @@ public class UI extends Panel {
 	public int tick;
 	public long time;
 	public static long startTime;
+	public boolean hasShader;
 
 	public UI(ScreenKubeJSUI s) {
 		screen = s;
@@ -56,12 +57,12 @@ public class UI extends Panel {
 	}
 
 	@Override
-	public int getWidth() {
+	public int getW() {
 		return screen.width;
 	}
 
 	@Override
-	public int getHeight() {
+	public int getH() {
 		return screen.height;
 	}
 

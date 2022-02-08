@@ -16,8 +16,8 @@ public class Label extends Widget {
 
 	public Label() {
 		z = 20;
-		setWidth(1);
-		setHeight(10);
+		setW(1);
+		setH(10);
 		shadow = false;
 	}
 
@@ -25,7 +25,7 @@ public class Label extends Widget {
 	public void setName(Text o) {
 		super.setName(o);
 		cachedComponentUnderlined = new TextComponent("").append(cachedComponent).withStyle(ChatFormatting.UNDERLINE);
-		setWidth((int) (getUi().screen.getUiFont().width(cachedComponent) * (getHeight() / 10F)));
+		setW((int) (getUi().screen.getUiFont().width(cachedComponent) * (getH() / 10F)));
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class Label extends Widget {
 		matrixStack.pushPose();
 		matrixStack.translate(actualX, actualY, z);
 
-		int h = getHeight();
+		int h = getH();
 		matrixStack.scale(h / 10F, h / 10F, 1F);
 
 		Component c = (isMouseOver && getAction() != null) ? cachedComponentUnderlined : cachedComponent;

@@ -30,7 +30,7 @@ import java.util.function.Consumer;
  */
 public class Widget extends GuiComponent {
 	public Panel parent;
-	private int x, y, width, height;
+	private int x, y, w, h;
 	public int z;
 	private Text name;
 	private Consumer<Screen> action;
@@ -50,8 +50,8 @@ public class Widget extends GuiComponent {
 	public Widget() {
 		x = 0;
 		y = 0;
-		width = 16;
-		height = 16;
+		w = 16;
+		h = 16;
 		z = 0;
 		name = Text.of("");
 		action = null;
@@ -97,28 +97,28 @@ public class Widget extends GuiComponent {
 		setY(Mth.floor(_y));
 	}
 
-	public int getWidth() {
-		return width;
+	public int getW() {
+		return w;
 	}
 
-	public void setWidth(int w) {
-		width = w;
+	public void setW(int w) {
+		this.w = w;
 	}
 
-	public double getActualWidth() {
-		return getWidth() / getUi().getScale();
+	public double getActualW() {
+		return getW() / getUi().getScale();
 	}
 
-	public int getHeight() {
-		return height;
+	public int getH() {
+		return h;
 	}
 
-	public void setHeight(int h) {
-		height = h;
+	public void setH(int h) {
+		this.h = h;
 	}
 
-	public double getActualHeight() {
-		return getHeight() / getUi().getScale();
+	public double getActualH() {
+		return getH() / getUi().getScale();
 	}
 
 	public Text getName() {
@@ -207,5 +207,25 @@ public class Widget extends GuiComponent {
 		if (hoverTextComponents != null && isMouseOver) {
 			list.addAll(hoverTextComponents);
 		}
+	}
+
+	@Deprecated
+	public final int getWidth() {
+		return getW();
+	}
+
+	@Deprecated
+	public final int getHeight() {
+		return getH();
+	}
+
+	@Deprecated
+	public final void setWidth(int w) {
+		setW(w);
+	}
+
+	@Deprecated
+	public final void setHeight(int h) {
+		setH(h);
 	}
 }
