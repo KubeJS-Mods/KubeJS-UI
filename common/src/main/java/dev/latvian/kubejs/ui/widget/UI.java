@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.DoubleConsumer;
 
 /**
  * @author LatvianModder
@@ -23,6 +24,8 @@ public class UI extends Panel {
 	public long time;
 	public static long startTime;
 	public boolean hasShader;
+	public Runnable screenTick;
+	public DoubleConsumer screenRender;
 
 	public UI(ScreenKubeJSUI s) {
 		screen = s;

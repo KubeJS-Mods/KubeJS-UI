@@ -110,6 +110,10 @@ public final class ScreenKubeJSUI extends Screen {
 			}
 		}
 
+		if (ui.screenRender != null) {
+			ui.screenRender.accept(partialTicks);
+		}
+
 		ui.renderBackground(matrixStack, partialTicks);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		ui.renderForeground(matrixStack, partialTicks);
@@ -174,6 +178,11 @@ public final class ScreenKubeJSUI extends Screen {
 	@Override
 	public void tick() {
 		super.tick();
+
+		if (ui.screenTick != null) {
+			ui.screenTick.run();
+		}
+
 		ui.tick++;
 	}
 
