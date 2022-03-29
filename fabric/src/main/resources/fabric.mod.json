@@ -21,7 +21,7 @@
 	"mixins": [
 	],
 	"depends": {
-		"kubejs": ">=1605.3.14-build.60",
-		"architectury": ">=1.20.28"
+		"kubejs": ">=1802.5.0-build.320",
+		"architectury": ">=4.1.34"
 	}
 }
