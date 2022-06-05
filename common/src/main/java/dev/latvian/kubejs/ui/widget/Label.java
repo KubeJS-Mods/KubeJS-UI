@@ -2,7 +2,6 @@ package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.latvian.mods.kubejs.text.Text;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -22,10 +21,10 @@ public class Label extends Widget {
 	}
 
 	@Override
-	public void setName(Text o) {
-		super.setName(o);
-		cachedComponentUnderlined = new TextComponent("").append(cachedComponent).withStyle(ChatFormatting.UNDERLINE);
-		setW((int) (getUi().screen.getUiFont().width(cachedComponent) * (getH() / 10F)));
+	public void setName(Component name) {
+		super.setName(name);
+		cachedComponentUnderlined = new TextComponent("").append(this.name).withStyle(ChatFormatting.UNDERLINE);
+		setW((int) (getUi().screen.getUiFont().width(this.name) * (getH() / 10F)));
 	}
 
 	@Override
@@ -37,7 +36,7 @@ public class Label extends Widget {
 		int h = getH();
 		matrixStack.scale(h / 10F, h / 10F, 1F);
 
-		Component c = (isMouseOver && getAction() != null) ? cachedComponentUnderlined : cachedComponent;
+		Component c = (isMouseOver && getAction() != null) ? cachedComponentUnderlined : name;
 		int col = (isMouseOver ? hoverColor : color) | (alpha << 24);
 
 		if (shadow) {

@@ -2,9 +2,9 @@ package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.latvian.mods.kubejs.text.Text;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 
 /**
@@ -21,9 +21,9 @@ public class Button extends Widget {
 	}
 
 	@Override
-	public void setName(Text o) {
-		super.setName(o);
-		setW(getUi().screen.getUiFont().width(cachedComponent) + 10);
+	public void setName(Component name) {
+		super.setName(name);
+		setW(getUi().screen.getUiFont().width(this.name) + 10);
 	}
 
 	@Override
@@ -59,10 +59,10 @@ public class Button extends Widget {
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
 		if (shadow) {
-			drawCenteredString(matrixStack, fontrenderer, cachedComponent, w / 2, (h - 8) / 2, j | (alpha << 24));
+			drawCenteredString(matrixStack, fontrenderer, name, w / 2, (h - 8) / 2, j | (alpha << 24));
 		} else {
 			// RenderSystem.enableAlphaTest();
-			FormattedCharSequence ireorderingprocessor = cachedComponent.getVisualOrderText();
+			FormattedCharSequence ireorderingprocessor = name.getVisualOrderText();
 			fontrenderer.draw(matrixStack, ireorderingprocessor, (w - fontrenderer.width(ireorderingprocessor)) / 2F, (h - 8) / 2F, j | (alpha << 24));
 		}
 

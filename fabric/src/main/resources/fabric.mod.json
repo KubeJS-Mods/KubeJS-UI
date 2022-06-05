@@ -21,7 +21,6 @@
 	"mixins": [
 	],
 	"depends": {
-		"kubejs": ">=1802.5.0-build.320",
-		"architectury": ">=4.1.34"
+		"kubejs": ">=${kubejs_version}"
 	}
 }

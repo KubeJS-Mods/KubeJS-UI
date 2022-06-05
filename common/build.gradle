@@ -2,15 +2,11 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
 	modApi "dev.architectury:architectury:${rootProject.architectury_version}"
-
-	modImplementation "dev.latvian.mods:kubejs-fabric:${rootProject.kubejs_version}"
-	modImplementation "dev.latvian.mods:rhino:${rootProject.rhino_version}"
+	modApi("dev.latvian.mods:kubejs:${rootProject.kubejs_version}")
 }
 
-def ENV = System.getenv()
-
 architectury {
-	common()
+	common("forge", "fabric")
 }
 
 publishing {

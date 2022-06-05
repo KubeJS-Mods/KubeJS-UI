@@ -16,13 +16,6 @@ license = "GNU LGPLv3"
 [[dependencies.kubejs_ui]]
 modId = "kubejs"
 mandatory = true
-versionRange = "[1802.5.0-build.320,)"
-ordering = "AFTER"
-side = "BOTH"
-
-[[dependencies.kubejs_ui]]
-modId = "architectury"
-mandatory = true
-versionRange = "[4.1.34,)"
+versionRange = "[${kubejs_version},)"
 ordering = "AFTER"
 side = "BOTH"
