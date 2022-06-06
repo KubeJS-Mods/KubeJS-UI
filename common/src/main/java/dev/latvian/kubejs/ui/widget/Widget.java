@@ -4,8 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.latvian.kubejs.ui.ScreenKubeJSUI;
 import dev.latvian.kubejs.ui.UIData;
 import dev.latvian.kubejs.ui.UIEventJS;
+import dev.latvian.mods.kubejs.bindings.ComponentWrapper;
 import dev.latvian.mods.kubejs.script.ScriptType;
-import dev.latvian.mods.kubejs.text.Text;
 import dev.latvian.mods.kubejs.util.UtilsJS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -32,7 +32,7 @@ public class Widget extends GuiComponent {
 	public Panel parent;
 	private int x, y, w, h;
 	public int z;
-	private Text name;
+	protected Component name;
 	private Consumer<Screen> action;
 	public int alpha;
 	public boolean enabled;
@@ -43,7 +43,6 @@ public class Widget extends GuiComponent {
 	public int hoverColor;
 	public List<Component> hoverTextComponents;
 
-	protected Component cachedComponent;
 	public int actualX, actualY;
 	public boolean isMouseOver;
 
@@ -53,7 +52,7 @@ public class Widget extends GuiComponent {
 		w = 16;
 		h = 16;
 		z = 0;
-		name = Text.of("");
+		name = TextComponent.EMPTY;
 		action = null;
 		alpha = 255;
 		enabled = true;
@@ -63,7 +62,6 @@ public class Widget extends GuiComponent {
 		color = 0xFFFFFF;
 		hoverColor = 0xFFFFFF;
 
-		cachedComponent = TextComponent.EMPTY;
 		actualX = 0;
 		actualY = 0;
 		isMouseOver = false;
@@ -121,13 +119,12 @@ public class Widget extends GuiComponent {
 		return getH() / getUi().getScale();
 	}
 
-	public Text getName() {
+	public Component getName() {
 		return name;
 	}
 
-	public void setName(Text o) {
-		name = o;
-		cachedComponent = name.component();
+	public void setName(Component name) {
+		this.name = name;
 	}
 
 	@Nullable
@@ -191,16 +188,12 @@ public class Widget extends GuiComponent {
 	public void mouseReleased() {
 	}
 
-	public void setHoverText(Object[] array) {
+	public void setHoverComponent(Component[] array) {
 		hoverTextComponents = new ArrayList<>(array.length);
 
 		for (Object o : array) {
-			hoverTextComponents.add(Text.of(o).component());
+			hoverTextComponents.add(ComponentWrapper.of(o));
 		}
-	}
-
-	public void setHoverText(Object o) {
-		setHoverText(new Object[]{o});
 	}
 
 	public void appendHoverText(List<Component> list) {

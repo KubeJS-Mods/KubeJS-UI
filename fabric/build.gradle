@@ -1,65 +1,40 @@
-plugins {
-	id "com.github.johnrengelman.shadow" version "7.1.0"
-	id "com.matthewprenger.cursegradle"
-}
-
-def ENV = System.getenv()
-
-configurations {
-	shadowCommon
-}
-
 architectury {
 	platformSetupLoomIde()
 	fabric()
 }
 
-configurations {
-	common
-	shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-	compileClasspath.extendsFrom common
-	runtimeClasspath.extendsFrom common
-	developmentFabric.extendsFrom common
-}
-
-dependencies {
-	modImplementation("net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}")
-	modImplementation("net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}")
-
-	modImplementation "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
-	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
-
-	modImplementation "dev.latvian.mods:kubejs-fabric:${rootProject.kubejs_version}"
-	modImplementation "dev.latvian.mods:rhino-fabric:${rootProject.rhino_version}"
-
-	modApi("curse.maven:modmenu-308702:${rootProject.fabric_mod_menu_file}")
-
-	common(project(path: ":common", configuration: "namedElements")) { transitive false }
-	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-}
-
-processResources {
-	inputs.property "version", project.version
-
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+repositories {
+	maven {
+		url "https://maven.terraformersmc.com/releases"
 	}
 }
 
-shadowJar {
-	configurations = [project.configurations.shadowCommon]
-	classifier "dev-shadow"
+dependencies {
+	modApi("net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}")
+	modApi("net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}")
+
+	modApi("dev.architectury:architectury-fabric:${rootProject.architectury_version}")
+	modApi("dev.latvian.mods:kubejs-fabric:${rootProject.kubejs_version}")
+
+	modApi("com.terraformersmc:modmenu:${rootProject.fabric_mod_menu_version}")
+
+	modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}")
+
+	implementation(project(path: ":common", configuration: "namedElements")) { transitive false }
+	developmentFabric(project(path: ":common", configuration: "namedElements")) { transitive false }
+	bundle(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
 
-remapJar {
-	input.set shadowJar.archiveFile
-	dependsOn shadowJar
-	archiveBaseName.set "${rootProject.mod_name}-${project.name}"
-	archiveClassifier.set null
-}
+processResources {
+	def toReplace = [
+			"version"             : project.version,
+			"kubejs_version"      : rootProject.kubejs_version,
+	]
 
-jar {
-	classifier "dev"
+	inputs.properties toReplace
+	filesMatching("fabric.mod.json") {
+		expand toReplace
+	}
 }
 
 components.java {
@@ -73,14 +48,13 @@ if (ENV.CURSEFORGE_KEY) {
 		apiKey = ENV.CURSEFORGE_KEY
 		project {
 			id = project.curseforge_id
-			releaseType = project.curseforge_type
+			releaseType = project.artifact_type
 			addGameVersion "Fabric"
 			addGameVersion "1.18.2"
 			mainArtifact(remapJar.archivePath)
 			relations {
-				requiredDependency 'architectury-fabric'
-				requiredDependency 'fabric-api'
-				requiredDependency 'kubejs-fabric'
+				requiredDependency 'architectury-api'
+				requiredDependency 'kubejs'
 			}
 			changelog = getGitChangelog
 			changelogType = 'markdown'
@@ -91,7 +65,7 @@ if (ENV.CURSEFORGE_KEY) {
 publishing {
 	publications {
 		mavenFabric(MavenPublication) {
-			artifactId = "${rootProject.mod_name}-${project.name}"
+			artifactId = "${rootProject.archives_base_name}-${project.name}"
 			from components.java
 		}
 	}
@@ -118,5 +92,3 @@ publishing {
 		}
 	}
 }
-
-rootProject.tasks.getByName("curseforgePublish").dependsOn tasks.getByName("curseforge")

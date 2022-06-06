@@ -2,7 +2,7 @@ package dev.latvian.kubejs.ui.widget;
 
 import dev.latvian.kubejs.ui.KubeJSUIOptions;
 import dev.latvian.kubejs.ui.ScreenKubeJSUI;
-import dev.latvian.mods.kubejs.text.Text;
+import dev.latvian.mods.kubejs.bindings.ComponentWrapper;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
@@ -32,7 +32,7 @@ public class UI extends Panel {
 		mouse = new Mouse();
 		allWidgets = new ArrayList<>();
 		widgetTexture = new ResourceLocation("minecraft:textures/gui/widgets.png");
-		setName(Text.of(s.getTitle()));
+		setName(ComponentWrapper.of(s.getTitle()));
 		tick = 0;
 
 		long now = System.currentTimeMillis();
@@ -78,15 +78,13 @@ public class UI extends Panel {
 	public int textWidth(@Nullable Object o) {
 		if (o == null) {
 			return 0;
-		} else if (o instanceof FormattedText) {
-			return screen.getUiFont().width((FormattedText) o);
-		} else if (o instanceof FormattedCharSequence) {
-			return screen.getUiFont().width((FormattedCharSequence) o);
-		} else if (o instanceof Text) {
-			return screen.getUiFont().width(((Text) o).component());
+		} else if (o instanceof FormattedText ft) {
+			return screen.getUiFont().width(ft);
+		} else if (o instanceof FormattedCharSequence fcs) {
+			return screen.getUiFont().width(fcs);
 		}
 
-		return screen.getUiFont().width(o.toString());
+		return screen.getUiFont().width(ComponentWrapper.of(o));
 	}
 
 	public boolean getUseShaders() {
