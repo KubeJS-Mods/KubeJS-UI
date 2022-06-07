@@ -3,6 +3,10 @@ architectury {
 	forge()
 }
 
+configurations {
+	developmentForge.extendsFrom common
+}
+
 dependencies {
 	forge("net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}")
 
@@ -11,8 +15,7 @@ dependencies {
 
 	modLocalRuntime modCompileOnly("me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}")
 
-	implementation(project(path: ":common", configuration: "namedElements")) { transitive false }
-	developmentForge(project(path: ":common", configuration: "namedElements")) { transitive false }
+	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	bundle(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
 }
 
