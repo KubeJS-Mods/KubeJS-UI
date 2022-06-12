@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 
 /**
  * @author LatvianModder
@@ -23,7 +22,7 @@ public class Label extends Widget {
 	@Override
 	public void setName(Component name) {
 		super.setName(name);
-		cachedComponentUnderlined = new TextComponent("").append(this.name).withStyle(ChatFormatting.UNDERLINE);
+		cachedComponentUnderlined = this.name.copy().withStyle(ChatFormatting.UNDERLINE);
 		setW((int) (getUi().screen.getUiFont().width(this.name) * (getH() / 10F)));
 	}
 

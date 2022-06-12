@@ -15,7 +15,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -52,7 +51,7 @@ public class Widget extends GuiComponent {
 		w = 16;
 		h = 16;
 		z = 0;
-		name = TextComponent.EMPTY;
+		name = Component.empty();
 		action = null;
 		alpha = 255;
 		enabled = true;

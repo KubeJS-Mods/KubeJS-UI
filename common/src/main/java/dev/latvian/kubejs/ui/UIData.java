@@ -74,8 +74,8 @@ public enum UIData implements ResourceManagerReloadListener {
 
 		for (String namespace : resourceManager.getNamespaces()) {
 			try {
-				for (Resource resource : resourceManager.getResources(new ResourceLocation(namespace, "kubejsui.json"))) {
-					try (InputStream stream = resource.getInputStream()) {
+				for (Resource resource : resourceManager.getResourceStack(new ResourceLocation(namespace, "kubejsui.json"))) {
+					try (InputStream stream = resource.open()) {
 						JsonObject json = gson.fromJson(new InputStreamReader(stream, StandardCharsets.UTF_8), JsonObject.class);
 
 						if (json.has("actions")) {
@@ -131,13 +131,5 @@ public enum UIData implements ResourceManagerReloadListener {
 
 	public String getScreenId(Class<?> c) {
 		return screenIds.getOrDefault(c, "");
-	}
-
-	/**
-	 * @deprecated This only exists for backwards compat purposes. Please use UIData.INSTANCE instead!
-	 */
-	@Deprecated
-	public static UIData get() {
-		return INSTANCE;
 	}
 }
