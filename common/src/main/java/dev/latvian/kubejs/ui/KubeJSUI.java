@@ -2,6 +2,10 @@ package dev.latvian.kubejs.ui;
 
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
+import dev.latvian.mods.kubejs.KubeJSPlugin;
+import dev.latvian.mods.kubejs.bindings.event.ClientEvents;
+import dev.latvian.mods.kubejs.bindings.event.ServerEvents;
+import dev.latvian.mods.kubejs.event.EventHandler;
 
 /**
  * @author LatvianModder

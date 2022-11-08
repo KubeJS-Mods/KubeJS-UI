@@ -9,16 +9,22 @@ import java.util.function.Consumer;
  * @author LatvianModder
  */
 public class UIEventJS extends EventJS {
-	public Consumer<UI> consumer;
-	public int forcedScale = -1;
+	private Consumer<UI> consumer;
+	private int forcedScale = -1;
 
-	@Override
-	public boolean canCancel() {
-		return true;
+	public UIEventJS() {
 	}
 
 	public void replace(Consumer<UI> c) {
 		consumer = c;
 		cancel();
+	}
+
+	public Consumer<UI> getConsumer() {
+		return consumer;
+	}
+
+	public int getForcedScale() {
+		return forcedScale;
 	}
 }
