@@ -1,10 +1,10 @@
 package dev.latvian.kubejs.ui.widget;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.latvian.kubejs.ui.ScreenKubeJSUI;
-import dev.latvian.kubejs.ui.UIData;
-import dev.latvian.kubejs.ui.UIEventJS;
+import dev.latvian.kubejs.ui.*;
 import dev.latvian.mods.kubejs.bindings.ComponentWrapper;
+import dev.latvian.mods.kubejs.bindings.event.ServerEvents;
+import dev.latvian.mods.kubejs.event.EventHandler;
 import dev.latvian.mods.kubejs.script.ScriptType;
 import dev.latvian.mods.kubejs.util.UtilsJS;
 import net.minecraft.client.Minecraft;
@@ -139,10 +139,9 @@ public class Widget extends GuiComponent {
 		if (id.startsWith("$")) {
 			setAction(s -> {
 				try {
-					UIEventJS e = new UIEventJS();
-
-					if (e.post(ScriptType.CLIENT, "ui." + id) && e.consumer != null) {
-						Minecraft.getInstance().setScreen(new ScreenKubeJSUI(id, s, e.consumer, e.forcedScale));
+					UIEventJS event = new UIEventJS();
+					if (KubeJSPluginImpl.UI_EVENT.post(id, event) && event.getConsumer() != null) {
+						Minecraft.getInstance().setScreen(new ScreenKubeJSUI(id, s, event.getConsumer(), event.getForcedScale()));
 					}
 				} catch (Exception ex) {
 					ScriptType.CLIENT.console.error("Failed to create " + id + " UI:");

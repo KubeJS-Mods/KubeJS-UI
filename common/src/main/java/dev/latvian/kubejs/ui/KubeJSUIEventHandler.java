@@ -16,9 +16,8 @@ public class KubeJSUIEventHandler {
 
 			try {
 				UIEventJS e = new UIEventJS();
-
-				if (e.post(ScriptType.CLIENT, "ui." + o.screenId) && e.consumer != null) {
-					return CompoundEventResult.interruptTrue(new ScreenKubeJSUI(o.screenId, o.original, e.consumer, e.forcedScale));
+				if (KubeJSPluginImpl.UI_EVENT.post(o.screenId, e) && e.getConsumer() != null) {
+					return CompoundEventResult.interruptTrue(new ScreenKubeJSUI(o.screenId, o.original, e.getConsumer(), e.getForcedScale()));
 				}
 			} catch (Exception ex) {
 				ScriptType.CLIENT.console.error("Failed to create " + o.screenId + " UI:");
@@ -34,8 +33,10 @@ public class KubeJSUIEventHandler {
 			try {
 				UIEventJS e = new UIEventJS();
 
-				if (e.post(ScriptType.CLIENT, "ui." + id) && e.consumer != null) {
-					return CompoundEventResult.interruptTrue(new ScreenKubeJSUI(id, screen, e.consumer, e.forcedScale));
+				if (KubeJSPluginImpl.UI_EVENT.post(id, e)) {
+					if (e.getConsumer() != null) {
+						return CompoundEventResult.interruptTrue(new ScreenKubeJSUI(id, screen, e.getConsumer(), e.getForcedScale()));
+					}
 				}
 			} catch (Exception ex) {
 				ScriptType.CLIENT.console.error("Failed to create " + id + " UI:");
